@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Monk Silly</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('assets/img/monk silly.png') no-repeat center center fixed;
+            background-size: cover;
+            z-index: 0;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            padding-top: 20px;
+            gap: 20px;
+            position: relative;
+            z-index: 1;
+        }
+        .nav-link {
+            background: white;
+            color: black;
+            border: none;
+            font-size: 28px;
+            padding: 10px 30px;
+            margin: 0 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-link:hover {
+            background: #e0e0e0;
+        }
+        @media (max-width: 600px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+                align-items: center;
+            }
+            .nav-link {
+                width: 80%;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="nav-buttons">
+        <a class="nav-link" href="homepage.html"><b>Home</b></a>
+        <a class="nav-link" href="#"><b>Why you wont survive</b></a>
+        <a class="nav-link" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
+        <a class="nav-link" href="monk-silly.html"><b>Monk Silly</b></a>
+    </div>
+</body>
+</html>

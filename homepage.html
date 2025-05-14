@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE RAINWORLD SHELTER</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('assets/img/rainworld.jpg') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.33;
+            z-index: 0;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding-top: 40px;
+        }
+        .title {
+            font-size: 36px;
+            font-weight: normal;
+        }
+        .subtitle {
+            font-size: 24px;
+            margin-top: 5px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+            gap: 20px;
+        }
+        .nav-link {
+            background: white;
+            color: black;
+            border: none;
+            font-size: 28px;
+            padding: 10px 30px;
+            margin: 0 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-link:hover {
+            background: #e0e0e0;
+        }
+        .info-box {
+            border: 2px solid #444;
+            border-radius: 10px;
+            background: #fffbe6;
+            padding: 18px;
+            margin: 0 auto;
+            margin-top: 30px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+            font-size: 1.1em;
+            text-align: left;
+            max-width: 500px;
+        }
+        .info-title {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #222;
+        }
+        .slugcat-img {
+            width: 120px;
+            height: 120px;
+            object-fit: contain;
+            display: block;
+            margin: 0 auto 8px auto;
+        }
+        .slugcat-name {
+            text-align: center;
+            font-size: 1.3em;
+            font-weight: bold;
+            margin-bottom: 10px;
+            /* Text outline for visibility */
+            -webkit-text-stroke: 1.2px black;
+            text-stroke: 1.2px black;
+            text-shadow:
+              1px 1px 0 #000,
+              -1px 1px 0 #000,
+              1px -1px 0 #000,
+              -1px -1px 0 #000;
+        }
+        @media (max-width: 600px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .nav-link {
+                width: 100%;
+                font-size: 20px;
+            }
+            .info-box {
+                font-size: 1em;
+                padding: 10px;
+            }
+            .slugcat-img {
+                width: 80px;
+                height: 80px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="content">
+        <div class="title">THE RAINWORLD SHELTER</div>
+        <div class="subtitle">(fan made website)</div>
+        <div class="nav-buttons">
+            <a class="nav-link" href="homepage.html"><b>Home</b></a>
+            <a class="nav-link" href="#"><b>Why you wont survive</b></a>
+            <a class="nav-link" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
+            <a class="nav-link" href="monk-silly.html"><b>Monk Silly</b></a>
+        </div>
+        <!-- Add the random info buttons and box below -->
+        <div style="margin-top: 40px;">
+            <button class="nav-link" onclick="showRandomRegion()">Random Region</button>
+            <button class="nav-link" onclick="showRandomSlugcat()">Random Slugcat</button>
+        </div>
+        <div id="info-box"></div>
+    </div>
+    <script>
+        let rainworldData = null;
+
+        // Map slugcat names to image paths and custom colors
+        const slugcatVisuals = {
+          "Monk":       { color: "#FFD600", img: "assets/img/monk.png" },
+          "Survivor":   { color: "#FFFFFF", img: "assets/img/survivor.png" },
+          "Hunter":     { color: "#FF6699", img: "assets/img/hunter.png" },
+          "Gourmand":   { color: "#FFFACD", img: "assets/img/gourmand.png" }, // Pale yellow
+          "Artificer":  { color: "#FF1493", img: "assets/img/artificer.png" }, // Hot pink
+          "Rivulet":    { color: "#4FC3F7", img: "assets/img/rivulet.png" },
+          "Spearmaster":{ color: "#7C4DFF", img: "assets/img/spearmaster.png" }
+        };
+
+        // Map region names to image filenames, widths, and wiki URLs
+        const regionVisuals = {
+          "Outskirts": {
+            img: "assets/img/120px-Outskirts_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Outskirts"
+          },
+          "Industrial Complex": {
+            img: "assets/img/120px-Industrial_Complex_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Industrial_Complex"
+          },
+          "Drainage System": {
+            img: "assets/img/120px-Drainage_System_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Drainage_System"
+          },
+          "Garbage Wastes": {
+            img: "assets/img/120px-Garbage_Wastes_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Garbage_Wastes"
+          },
+          "Shaded Citadel": {
+            img: "assets/img/120px-Shaded_Citadel_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Shaded_Citadel"
+          },
+          "The Exterior": {
+            img: "assets/img/120px-The_Exterior_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/The_Exterior"
+          },
+          "Chimney Canopy": {
+            img: "assets/img/103px-Chimney_Canopy_Map_(Vanilla).png",
+            width: 103,
+            wiki: "https://rainworld.miraheze.org/wiki/Chimney_Canopy"
+          },
+          "Five Pebbles": {
+            img: "assets/img/82px-Five_Pebbles_Map_(Vanilla).png",
+            width: 82,
+            wiki: "https://rainworld.miraheze.org/wiki/Five_Pebbles_(region)"
+          },
+          "Sky Islands": {
+            img: "assets/img/120px-Sky_Islands_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Sky_Islands"
+          },
+          "Farm Arrays": {
+            img: "assets/img/120px-Farm_Arrays_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Farm_Arrays"
+          },
+          "Subterranean": {
+            img: "assets/img/120px-Subterranean_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Subterranean"
+          },
+          "Memory Crypts": {
+            img: "assets/img/120px-Memory_Crypts_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Memory_Crypts"
+          },
+          "Shoreline": {
+            img: "assets/img/120px-Shoreline_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Shoreline"
+          },
+          "Looks to the Moon": {
+            img: "assets/img/120px-Looks_to_the_Moon_Map_(Vanilla).png",
+            width: 120,
+            wiki: "https://rainworld.miraheze.org/wiki/Looks_to_the_Moon"
+          }
+          // Add more regions here as needed
+        };
+
+        // Fetch the API data once on page load
+        fetch('http://localhost:3000/api/rainworld')
+          .then(res => res.json())
+          .then(data => { rainworldData = data; });
+
+        function showRandomRegion() {
+            if (!rainworldData) return;
+            const regions = rainworldData.regions;
+            const region = regions[Math.floor(Math.random() * regions.length)];
+            const visuals = regionVisuals[region.name];
+
+            let imgHTML = "";
+            if (visuals) {
+              imgHTML = `
+                <div style="text-align:center; margin-top:16px;">
+                  <a href="${visuals.wiki}" target="_blank" rel="noopener">
+                    <img src="${visuals.img}" alt="${region.name} Map" style="width:${visuals.width}px; height:auto; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
+                  </a>
+                </div>
+              `;
+            }
+
+            document.getElementById('info-box').innerHTML = `
+              <div class="info-box">
+                <div class="info-title">${region.name}</div>
+                <b>Enemies:</b> ${region.enemies.join(', ')}<br>
+                <b>Rooms:</b> ${region.rooms}<br>
+                <b>Pipes:</b> ${region.pipes}<br>
+                <b>Shelters:</b> ${region.shelters}<br>
+                <b>Connected Regions:</b> ${region.gates.map(g => g.to).join(', ')}
+                ${imgHTML}
+              </div>
+            `;
+        }
+
+        function showRandomSlugcat() {
+            if (!rainworldData) return;
+            const slugcats = rainworldData.slugcats;
+            const slugcat = slugcats[Math.floor(Math.random() * slugcats.length)];
+            const visuals = slugcatVisuals[slugcat.name] || { color: "#222", img: "" };
+            document.getElementById('info-box').innerHTML = `
+              <div class="info-box">
+                <div style="text-align:center;">
+                  <img src="${visuals.img}" alt="${slugcat.name}" class="slugcat-img">
+                </div>
+                <div 
+                  class="slugcat-name"
+                  style="color:${visuals.color};"
+                >${slugcat.name}</div>
+                <b>Color:</b> ${slugcat.color}<br>
+                <b>Special Abilities:</b> ${slugcat.special_abilities.join(', ')}<br>
+                <b>Objective:</b> ${slugcat.objective}<br>
+                <b>Food to Hibernate:</b> ${slugcat.food_to_hibernate}<br>
+                <b>Max Food:</b> ${slugcat.max_food}<br>
+                <b>Damage:</b> ${slugcat.damage}<br>
+                <b>Diet:</b> ${slugcat.diet}
+              </div>
+            `;
+        }
+    </script>
+</body>
+</html>
