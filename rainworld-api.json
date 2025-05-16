@@ -6,7 +6,7 @@
       "rooms": 44,
       "pipes": 120,
       "shelters": 3,
-	  "spawns": "Survivor", "Monk", "Spearmaster",
+	  "spawns": ["Survivor", "Monk", "Spearmaster"],
       "gates": [
         { "to": "Industrial Complex" },
         { "to": "Drainage System" }
@@ -32,7 +32,7 @@
       "rooms": 37,
       "pipes": 93,
       "shelters": 4,
-	  "spawns": "Rivulet",
+	  "spawns": ["Rivulet"],
       "gates": [
         { "to": "Outskirts" },
         { "to": "Garbage Wastes" },
@@ -45,7 +45,7 @@
       "rooms": 53,
       "pipes": 137,
       "shelters": 7,
-	  "spawns": "Artificer",
+	  "spawns": ["Artificer"],
       "gates": [
         { "to": "Industrial Complex" },
         { "to": "Drainage System" },
@@ -70,7 +70,7 @@
       "rooms": 38,
       "pipes": 98,
       "shelters": 10,
-	  "spawns": "Gourmand",
+	  "spawns": ["Gourmand"],
       "gates": [
         { "to": "Shoreline" },
         { "to": "Industrial Complex" },
@@ -128,7 +128,7 @@
       "rooms": 45,
       "pipes": 110,
       "shelters": 6,
-	  "spawns": "Hunter",
+	  "spawns": ["Hunter"],
       "gates": [
         { "to": "Sky Islands" },
         { "to": "Outskirts" },
