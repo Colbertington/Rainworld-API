@@ -5,10 +5,12 @@
       "enemies": ["Green Lizard", "Pink Lizard", "Blue Lizard", "White Lizard", "Vulture", "Cyan Lizard", "Centipede", "Eggbug", "Leech"],
       "rooms": 44,
       "pipes": 120,
-      "shelters": 4,
+      "shelters": 3,
+	  "spawns": "Survivor", "Monk", "Spearmaster",
       "gates": [
         { "to": "Industrial Complex" },
         { "to": "Drainage System" }
+        { "to": "Farm Arrays" }
       ]
     },
     {
@@ -16,10 +18,12 @@
       "enemies": ["Green Lizard", "Pink Lizard", "Blue Lizard", "White Lizard", "Vulture", "Centipede", "Eggbug", "Leech"],
       "rooms": 50,
       "pipes": 130,
-      "shelters": 5,
+      "shelters": 6,
       "gates": [
         { "to": "Outskirts" },
         { "to": "Garbage Wastes" }
+        { "to": "Chimney Canopy" }
+        { "to": "Shaded Citadel" }
       ]
     },
     {
@@ -27,10 +31,12 @@
       "enemies": ["Green Lizard", "Pink Lizard", "Blue Lizard", "White Lizard", "Vulture", "Centipede", "Eggbug", "Leech"],
       "rooms": 37,
       "pipes": 93,
-      "shelters": 3,
+      "shelters": 4,
+	  "spawns": "Rivulet",
       "gates": [
         { "to": "Outskirts" },
-        { "to": "Garbage Wastes" }
+        { "to": "Garbage Wastes" },
+        { "to": "Subterranean" }
       ]
     },
     {
@@ -38,12 +44,12 @@
       "enemies": ["Green Lizard", "Pink Lizard", "Blue Lizard", "White Lizard", "Vulture", "Centipede", "Eggbug", "Leech", "Red Lizard"],
       "rooms": 53,
       "pipes": 137,
-      "shelters": 5,
+      "shelters": 7,
+	  "spawns": "Artificer",
       "gates": [
         { "to": "Industrial Complex" },
         { "to": "Drainage System" },
         { "to": "Shoreline" },
-        { "to": "Shaded Citadel" }
       ]
     },
     {
@@ -51,10 +57,11 @@
       "enemies": ["Green Lizard", "Blue Lizard", "White Lizard", "Leviathan", "Jetfish", "Vulture", "Centipede", "Eggbug", "Leech"],
       "rooms": 41,
       "pipes": 115,
-      "shelters": 4,
+      "shelters": 9,
       "gates": [
         { "to": "Garbage Wastes" },
-        { "to": "Five Pebbles" }
+        { "to": "Shaded Citadel" },
+        { "to": "Subterranean" }
       ]
     },
     {
@@ -62,9 +69,11 @@
       "enemies": ["Black Lizard", "Mirolith", "Centipede", "Pole Plant", "Daddy Long Legs", "Brother Long Legs", "Coalescipede", "Eggbug", "Leech", "Red Centipede"],
       "rooms": 38,
       "pipes": 98,
-      "shelters": 3,
+      "shelters": 10,
+	  "spawns": "Gourmand",
       "gates": [
-        { "to": "Garbage Wastes" },
+        { "to": "Shoreline" },
+        { "to": "Industrial Complex" },
         { "to": "The Exterior" }
       ]
     },
@@ -73,10 +82,11 @@
       "enemies": ["King Vulture", "Vulture Grub", "Scavenger", "Centipede", "Leech"],
       "rooms": 25,
       "pipes": 55,
-      "shelters": 2,
+      "shelters": 7,
       "gates": [
         { "to": "Shaded Citadel" },
-        { "to": "Sky Islands" }
+        { "to": "Chimney Canopy" },
+        { "to": "Five Pebbles" }
       ]
     },
     {
@@ -84,9 +94,9 @@
       "enemies": ["Inspector", "Centipede", "Leech", "Scavenger", "Brother Long Legs"],
       "rooms": 31,
       "pipes": 75,
-      "shelters": 2,
+      "shelters": 5,
       "gates": [
-        { "to": "Shoreline" }
+        { "to": "The Exterior" }
       ]
     },
     {
@@ -94,10 +104,11 @@
       "enemies": ["King Vulture", "Vulture", "Blue Lizard", "Centipede", "Scavenger", "Eggbug"],
       "rooms": 40,
       "pipes": 100,
-      "shelters": 3,
+      "shelters": 4,
       "gates": [
         { "to": "Sky Islands" },
-        { "to": "Farm Arrays" }
+        { "to": "Industrial Complex" },
+        { "to": "The Exterior" },
       ]
     },
     {
@@ -107,31 +118,33 @@
       "pipes": 82,
       "shelters": 3,
       "gates": [
-        { "to": "The Exterior" },
+        { "to": "Farm Arrays" },
         { "to": "Chimney Canopy" },
-        { "to": "Farm Arrays" }
       ]
     },
     {
       "name": "Farm Arrays",
-      "enemies": ["Centipede", "Scavenger", "Vulture", "King Vulture", "Leech", "Cyan Lizard", "Eggbug"],
+      "enemies": ["Centipedes", "Scavenger", "Vulture", "King Vulture", "Leeches", "Lizards", "Eggbug"],
       "rooms": 45,
       "pipes": 110,
-      "shelters": 4,
+      "shelters": 6,
+	  "spawns": "Hunter",
       "gates": [
         { "to": "Sky Islands" },
-        { "to": "Chimney Canopy" },
+        { "to": "Outskirts" },
         { "to": "Subterranean" }
       ]
     },
     {
       "name": "Subterranean",
-      "enemies": ["Red Lizard", "Daddy Long Legs", "Brother Long Legs", "Leech", "Centipede", "Mirolith", "Scavenger"],
+      "enemies": ["Lizards", "Black Lizards", "Leeches", "Centipedes", "Red Centipedes", "Monster Kelp", "Scavengers", "Spiders"],
       "rooms": 42,
       "pipes": 99,
-      "shelters": 3,
+      "shelters": 7,
       "gates": [
-        { "to": "Farm Arrays" }
+        { "to": "Farm Arrays" },
+		{ "to": "Drainage System" },
+		{ "to": "Shoreline" }
       ]
     }
   ],
@@ -139,7 +152,8 @@
     {
       "name": "Survivor",
       "color": "White",
-      "special_abilities": ["Standard movement", "Average stats"],
+	  "spawn": "Outskirts",
+      "special_abilities": ["Standard movement", "Many players start"],
       "objective": "Survive and ascend",
       "food_to_hibernate": 4,
       "max_food": 7,
@@ -149,8 +163,9 @@
     {
       "name": "Monk",
       "color": "Yellow",
+	  "spawn": "Outskirts",
       "special_abilities": ["Easy mode", "Predators less aggressive", "Karma gates stay open"],
-      "objective": "Survive and ascend(less challenging)",
+      "objective": "Survive and ascend (less challenging)",
       "food_to_hibernate": 3,
       "max_food": 5,
       "damage": 0.66,
@@ -159,7 +174,8 @@
     {
       "name": "Hunter",
       "color": "Red",
-      "special_abilities": ["Carries spear on back", "High damage", "Limited cycles"],
+	  "spawn": "Farm Arrays",
+      "special_abilities": ["Carries spear on back", "Limited cycles", "Hard Mode"],
       "objective": "Ascend before you die of cancer",
       "food_to_hibernate": 6,
       "max_food": 9,
@@ -169,16 +185,18 @@
     {
       "name": "Gourmand",
       "color": "Pale Yellow",
-      "special_abilities": ["Can craft items", "Body slam", "Gets tired after physical activity"],
-      "objective": "Go back home and complete food quest",
+	  "spawn": "Shaded Citadel",
+      "special_abilities": ["Can craft items", "Regurgatate items", "Gets tired after physical activity"],
+      "objective": "Complete food quest and go back home",
       "food_to_hibernate": 7,
       "max_food": 11,
-      "damage": 1.5,
+      "damage": 3,
       "diet": "Omnivore"
     },
     {
       "name": "Spearmaster",
       "color": "Purple",
+	  "spawn": "Outskirts",
       "special_abilities": ["Produces spears from tail", "Gains food by stabbing"],
       "objective": "Deliver message to moon, deliver message to radio",
       "food_to_hibernate": 5,
@@ -189,7 +207,8 @@
     {
       "name": "Artificer",
       "color": "Hot Pink",
-      "special_abilities": ["Creates explosives", "Double jump", "Scavengers are hostile"],
+	  "spawn": "Garbage Wastes",
+      "special_abilities": ["Creates explosives", "Double jump", "Scavengers are extremely hostile"],
       "objective": "Survive and seek revenge for children murdered by scavengers",
       "food_to_hibernate": 4,
       "max_food": 7,
@@ -199,8 +218,9 @@
     {
       "name": "Rivulet",
       "color": "Blue",
+	  "spawn": "Drainage System",
       "special_abilities": ["Very fast", "High jump", "Shorter cycles"],
-      "objective": "Survive in fast cycles, while escorting a large battery",
+      "objective": "Survive in fast cycles, escort a battery",
       "food_to_hibernate": 5,
       "max_food": 6,
       "damage": 1,
