@@ -13,7 +13,7 @@
                 "Eggbug",
                 "Leech"
             ],
-            "rooms": 44,
+            "rooms": 63,
             "pipes": 120,
             "shelters": 3,
             "spawns": [
@@ -22,15 +22,9 @@
                 "Spearmaster"
             ],
             "gates": [
-                {
-                    "to": "Industrial Complex"
-                },
-                {
-                    "to": "Drainage System"
-                },
-                {
-                    "to": "Farm Arrays"
-                }
+                { "to": "Industrial Complex" },
+                { "to": "Drainage System" },
+                { "to": "Farm Arrays" }
             ]
         },
         {
@@ -49,18 +43,10 @@
             "pipes": 130,
             "shelters": 6,
             "gates": [
-                {
-                    "to": "Outskirts"
-                },
-                {
-                    "to": "Garbage Wastes"
-                },
-                {
-                    "to": "Chimney Canopy"
-                },
-                {
-                    "to": "Shaded Citadel"
-                }
+                { "to": "Outskirts" },
+                { "to": "Garbage Wastes" },
+                { "to": "Chimney Canopy" },
+                { "to": "Shaded Citadel" }
             ]
         },
         {
@@ -82,15 +68,9 @@
                 "Rivulet"
             ],
             "gates": [
-                {
-                    "to": "Outskirts"
-                },
-                {
-                    "to": "Garbage Wastes"
-                },
-                {
-                    "to": "Subterranean"
-                }
+                { "to": "Outskirts" },
+                { "to": "Garbage Wastes" },
+                { "to": "Subterranean" }
             ]
         },
         {
@@ -113,15 +93,9 @@
                 "Artificer"
             ],
             "gates": [
-                {
-                    "to": "Industrial Complex"
-                },
-                {
-                    "to": "Drainage System"
-                },
-                {
-                    "to": "Shoreline"
-                }
+                { "to": "Industrial Complex" },
+                { "to": "Drainage System" },
+                { "to": "Shoreline" }
             ]
         },
         {
@@ -141,15 +115,9 @@
             "pipes": 115,
             "shelters": 9,
             "gates": [
-                {
-                    "to": "Garbage Wastes"
-                },
-                {
-                    "to": "Shaded Citadel"
-                },
-                {
-                    "to": "Subterranean"
-                }
+                { "to": "Garbage Wastes" },
+                { "to": "Shaded Citadel" },
+                { "to": "Subterranean" }
             ]
         },
         {
@@ -173,15 +141,9 @@
                 "Gourmand"
             ],
             "gates": [
-                {
-                    "to": "Shoreline"
-                },
-                {
-                    "to": "Industrial Complex"
-                },
-                {
-                    "to": "The Exterior"
-                }
+                { "to": "Shoreline" },
+                { "to": "Industrial Complex" },
+                { "to": "The Exterior" }
             ]
         },
         {
@@ -197,15 +159,9 @@
             "pipes": 55,
             "shelters": 7,
             "gates": [
-                {
-                    "to": "Shaded Citadel"
-                },
-                {
-                    "to": "Chimney Canopy"
-                },
-                {
-                    "to": "Five Pebbles"
-                }
+                { "to": "Shaded Citadel" },
+                { "to": "Chimney Canopy" },
+                { "to": "Five Pebbles" }
             ]
         },
         {
@@ -221,9 +177,7 @@
             "pipes": 75,
             "shelters": 5,
             "gates": [
-                {
-                    "to": "The Exterior"
-                }
+                { "to": "The Exterior" }
             ]
         },
         {
@@ -240,15 +194,9 @@
             "pipes": 100,
             "shelters": 4,
             "gates": [
-                {
-                    "to": "Sky Islands"
-                },
-                {
-                    "to": "Industrial Complex"
-                },
-                {
-                    "to": "The Exterior"
-                }
+                { "to": "Sky Islands" },
+                { "to": "Industrial Complex" },
+                { "to": "The Exterior" }
             ]
         },
         {
@@ -265,12 +213,8 @@
             "pipes": 82,
             "shelters": 3,
             "gates": [
-                {
-                    "to": "Farm Arrays"
-                },
-                {
-                    "to": "Chimney Canopy"
-                }
+                { "to": "Farm Arrays" },
+                { "to": "Chimney Canopy" }
             ]
         },
         {
@@ -291,15 +235,9 @@
                 "Hunter"
             ],
             "gates": [
-                {
-                    "to": "Sky Islands"
-                },
-                {
-                    "to": "Outskirts"
-                },
-                {
-                    "to": "Subterranean"
-                }
+                { "to": "Sky Islands" },
+                { "to": "Outskirts" },
+                { "to": "Subterranean" }
             ]
         },
         {
@@ -318,15 +256,9 @@
             "pipes": 99,
             "shelters": 7,
             "gates": [
-                {
-                    "to": "Farm Arrays"
-                },
-                {
-                    "to": "Drainage System"
-                },
-                {
-                    "to": "Shoreline"
-                }
+                { "to": "Farm Arrays" },
+                { "to": "Drainage System" },
+                { "to": "Shoreline" }
             ]
         }
     ],
@@ -396,7 +328,8 @@
             "spawn": "Outskirts",
             "special_abilities": [
                 "Produces spears from tail",
-                "Gains food by stabbing"
+                "Gains food by stabbing",
+                "Has no mouth"
             ],
             "objective": "Deliver message to moon, deliver message to radio",
             "food_to_hibernate": 5,
@@ -434,5 +367,71 @@
             "damage": 1,
             "diet": "Omnivore"
         }
+    ],
+    "enemies": [
+        { "name": "Green Lizard", "img": "img/green_lizard.png", "category": "Hostile" },
+  { "name": "Pink Lizard", "img": "img/pink_lizard.png", "category": "Hostile" },
+  { "name": "Blue Lizard", "img": "img/blue_lizard.png", "category": "Hostile" },
+  { "name": "White Lizard", "img": "img/white_lizard.png", "category": "Hostile" },
+  { "name": "Salamander", "img": "img/salamander.png", "category": "Hostile" },
+  { "name": "Black Lizard", "img": "img/black_lizard.png", "category": "Hostile" },
+  { "name": "Yellow Lizard", "img": "img/yellow_lizard.png", "category": "Hostile" },
+  { "name": "Vulture", "img": "img/vulture.png", "category": "Hostile" },
+  { "name": "Pole Plant", "img": "img/pole_plant.png", "category": "Hostile" },
+  { "name": "Monster Kelp", "img": "img/monster_kelp.png", "category": "Hostile" },
+  { "name": "Red Leech", "img": "img/red_leech.png", "category": "Hostile" },
+  { "name": "Sea Leech", "img": "img/sea_leech.png", "category": "Hostile" },
+  { "name": "Centipede", "img": "img/centipede.png", "category": "Hostile" },
+  { "name": "Centiwing", "img": "img/centiwing.png", "category": "Hostile" },
+  { "name": "Coalescipede", "img": "img/coalescipede.png", "category": "Hostile" },
+  { "name": "Big Spider", "img": "img/big_spider.png", "category": "Hostile" },
+  { "name": "Dropwig", "img": "img/dropwig.png", "category": "Hostile" },
+  { "name": "Brother Long Legs", "img": "img/brother_long_legs.png", "category": "Hostile" },
+  { "name": "Leviathan", "img": "img/leviathan.png", "category": "Hostile" },
+  { "name": "Miros Bird", "img": "img/miros_bird.png", "category": "Hostile" },
+  { "name": "Daddy Long Legs", "img": "img/daddy_long_legs.png", "category": "Hostile" },
+  { "name": "Worm Grass", "img": "img/worm_grass.png", "category": "Hostile" },
+  { "name": "Caramel Lizard", "img": "img/caramel_lizard.png", "category": "Hostile" },
+  { "name": "Eel Lizard", "img": "img/eel_lizard.png", "category": "Hostile" },
+  { "name": "Strawberry Lizard", "img": "img/strawberry_lizard.png", "category": "Hostile" },
+  { "name": "Jungle Leech", "img": "img/jungle_leech.png", "category": "Hostile" },
+  { "name": "Aquapede", "img": "img/aquapede.png", "category": "Hostile" },
+  { "name": "Giant Jellyfish", "img": "img/giant_jellyfish.png", "category": "Hostile" },
+  { "name": "Stowaway", "img": "img/stowaway.png", "category": "Hostile" },
+  { "name": "Miros Vulture", "img": "img/miros_vulture.png", "category": "Hostile" },
+  { "name": "Mother Long Legs", "img": "img/mother_long_legs.png", "category": "Hostile" },
+
+  { "name": "Bugs", "img": "img/bugs.png", "category": "Neutral" },
+  { "name": "Overseer", "img": "img/overseer.png", "category": "Neutral" },
+  { "name": "Squidcada", "img": "img/squidcada.png", "category": "Neutral" },
+  { "name": "Adult Noodlefly", "img": "img/adult_noodlefly.png", "category": "Neutral" },
+  { "name": "Garbage Worm", "img": "img/garbage_worm.png", "category": "Neutral" },
+  { "name": "Snail", "img": "img/snail.png", "category": "Neutral" },
+  { "name": "Scavenger", "img": "img/scavenger.png", "category": "Neutral" },
+  { "name": "Lantern Mouse", "img": "img/lantern_mouse.png", "category": "Neutral" },
+  { "name": "Jetfish", "img": "img/jetfish.png", "category": "Neutral" },
+  { "name": "Grappling Worm", "img": "img/grappling_worm.png", "category": "Neutral" },
+  { "name": "Rain Deer", "img": "img/rain_deer.png", "category": "Neutral" },
+  { "name": "Adult Centipede", "img": "img/adult_centipede.png", "category": "Neutral" },
+  { "name": "Inspector", "img": "img/inspector.png", "category": "Neutral" },
+  { "name": "Elite Scavenger", "img": "img/elite_scavenger.png", "category": "Neutral" },
+  { "name": "Yeek", "img": "img/yeek.png", "category": "Neutral" },
+  { "name": "Mother Spider", "img": "img/mother_spider.png", "category": "Neutral" },
+  { "name": "Firebug", "img": "img/firebug.png", "category": "Neutral" },
+  { "name": "Infant Centiwing", "img": "img/infant_centiwing.png", "category": "Neutral" },
+
+  { "name": "Batfly", "img": "img/batfly.png", "category": "Edible" },
+  { "name": "Eggbug", "img": "img/eggbug.png", "category": "Edible" },
+  { "name": "Infant Noodlefly", "img": "img/infant_noodlefly.png", "category": "Edible" },
+  { "name": "Infant Centipede", "img": "img/infant_centipede.png", "category": "Edible" },
+  { "name": "Vulture Grub", "img": "img/vulture_grub.png", "category": "Edible" },
+  { "name": "Hazer", "img": "img/hazer.png", "category": "Edible" },
+  { "name": "Jellyfish", "img": "img/jellyfish.png", "category": "Edible" },
+
+  { "name": "Red Lizard", "img": "img/red_lizard.png", "category": "Hunter" },
+  { "name": "Cyan Lizard", "img": "img/cyan_lizard.png", "category": "Hunter" },
+  { "name": "King Vulture", "img": "img/king_vulture.png", "category": "Hunter" },
+  { "name": "Spitter Spider", "img": "img/spitter_spider.png", "category": "Hunter" },
+  { "name": "Red Centipede", "img": "img/red_centipede.png", "category": "Hunter" }
     ]
 }
