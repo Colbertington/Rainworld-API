@@ -22,9 +22,15 @@
                 "Spearmaster"
             ],
             "gates": [
-                { "to": "Industrial Complex" },
-                { "to": "Drainage System" },
-                { "to": "Farm Arrays" }
+                {
+                    "to": "Industrial Complex"
+                },
+                {
+                    "to": "Drainage System"
+                },
+                {
+                    "to": "Farm Arrays"
+                }
             ]
         },
         {
@@ -43,10 +49,18 @@
             "pipes": 130,
             "shelters": 6,
             "gates": [
-                { "to": "Outskirts" },
-                { "to": "Garbage Wastes" },
-                { "to": "Chimney Canopy" },
-                { "to": "Shaded Citadel" }
+                {
+                    "to": "Outskirts"
+                },
+                {
+                    "to": "Garbage Wastes"
+                },
+                {
+                    "to": "Chimney Canopy"
+                },
+                {
+                    "to": "Shaded Citadel"
+                }
             ]
         },
         {
@@ -68,9 +82,15 @@
                 "Rivulet"
             ],
             "gates": [
-                { "to": "Outskirts" },
-                { "to": "Garbage Wastes" },
-                { "to": "Subterranean" }
+                {
+                    "to": "Outskirts"
+                },
+                {
+                    "to": "Garbage Wastes"
+                },
+                {
+                    "to": "Subterranean"
+                }
             ]
         },
         {
@@ -93,9 +113,15 @@
                 "Artificer"
             ],
             "gates": [
-                { "to": "Industrial Complex" },
-                { "to": "Drainage System" },
-                { "to": "Shoreline" }
+                {
+                    "to": "Industrial Complex"
+                },
+                {
+                    "to": "Drainage System"
+                },
+                {
+                    "to": "Shoreline"
+                }
             ]
         },
         {
@@ -115,9 +141,15 @@
             "pipes": 115,
             "shelters": 9,
             "gates": [
-                { "to": "Garbage Wastes" },
-                { "to": "Shaded Citadel" },
-                { "to": "Subterranean" }
+                {
+                    "to": "Garbage Wastes"
+                },
+                {
+                    "to": "Shaded Citadel"
+                },
+                {
+                    "to": "Subterranean"
+                }
             ]
         },
         {
@@ -141,9 +173,15 @@
                 "Gourmand"
             ],
             "gates": [
-                { "to": "Shoreline" },
-                { "to": "Industrial Complex" },
-                { "to": "The Exterior" }
+                {
+                    "to": "Shoreline"
+                },
+                {
+                    "to": "Industrial Complex"
+                },
+                {
+                    "to": "The Exterior"
+                }
             ]
         },
         {
@@ -159,9 +197,15 @@
             "pipes": 55,
             "shelters": 7,
             "gates": [
-                { "to": "Shaded Citadel" },
-                { "to": "Chimney Canopy" },
-                { "to": "Five Pebbles" }
+                {
+                    "to": "Shaded Citadel"
+                },
+                {
+                    "to": "Chimney Canopy"
+                },
+                {
+                    "to": "Five Pebbles"
+                }
             ]
         },
         {
@@ -177,7 +221,9 @@
             "pipes": 75,
             "shelters": 5,
             "gates": [
-                { "to": "The Exterior" }
+                {
+                    "to": "The Exterior"
+                }
             ]
         },
         {
@@ -194,9 +240,15 @@
             "pipes": 100,
             "shelters": 4,
             "gates": [
-                { "to": "Sky Islands" },
-                { "to": "Industrial Complex" },
-                { "to": "The Exterior" }
+                {
+                    "to": "Sky Islands"
+                },
+                {
+                    "to": "Industrial Complex"
+                },
+                {
+                    "to": "The Exterior"
+                }
             ]
         },
         {
@@ -213,8 +265,12 @@
             "pipes": 82,
             "shelters": 3,
             "gates": [
-                { "to": "Farm Arrays" },
-                { "to": "Chimney Canopy" }
+                {
+                    "to": "Farm Arrays"
+                },
+                {
+                    "to": "Chimney Canopy"
+                }
             ]
         },
         {
@@ -235,9 +291,15 @@
                 "Hunter"
             ],
             "gates": [
-                { "to": "Sky Islands" },
-                { "to": "Outskirts" },
-                { "to": "Subterranean" }
+                {
+                    "to": "Sky Islands"
+                },
+                {
+                    "to": "Outskirts"
+                },
+                {
+                    "to": "Subterranean"
+                }
             ]
         },
         {
@@ -256,9 +318,15 @@
             "pipes": 99,
             "shelters": 7,
             "gates": [
-                { "to": "Farm Arrays" },
-                { "to": "Drainage System" },
-                { "to": "Shoreline" }
+                {
+                    "to": "Farm Arrays"
+                },
+                {
+                    "to": "Drainage System"
+                },
+                {
+                    "to": "Shoreline"
+                }
             ]
         }
     ],
@@ -367,4 +435,5 @@
             "damage": 1,
             "diet": "Omnivore"
         }
-    ],
+    ]
+}
