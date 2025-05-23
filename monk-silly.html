@@ -1,35 +1,49 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Monk Silly</title>
+    <meta charset="UTF-8" />
+    <title>monk silly</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
+        html, body {
+            height: 100%;
+            margin: 0; padding: 0;
         }
-        .bg-image {
-            position: fixed;
-            top: 0;
-            left: 0;
+        body {
             width: 100vw;
             height: 100vh;
-            background: url('assets/img/monk silly.png') no-repeat center center fixed;
-            background-size: cover;
-            z-index: 0;
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            padding-top: 20px;
-            gap: 20px;
+            overflow: hidden;
             position: relative;
+        }
+        #silly-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            object-fit: cover;
             z-index: 1;
+            user-select: none;
+            pointer-events: none;
+        }
+        #color-filter {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: 2;
+            pointer-events: none;
+            background: transparent;
+            transition: background 0.5s;
+        }
+        /* Centered nav bar, like homepage */
+        .nav-buttons {
+            position: fixed;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            gap: 20px;
         }
         .nav-link {
             background: white;
@@ -37,36 +51,125 @@
             border: none;
             font-size: 28px;
             padding: 10px 30px;
-            margin: 0 5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            border-radius: 0; /* Sharp edges */
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
             cursor: pointer;
-            transition: background 0.2s;
             text-decoration: none;
-            display: inline-block;
+            font-weight: bold;
+            opacity: 0.95;
+            transition: background 0.2s;
+            font-family: Arial, sans-serif;
         }
         .nav-link:hover {
-            background: #e0e0e0;
+            background: #ffe;
         }
-        @media (max-width: 600px) {
+        #color-btn {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 10;
+            padding: 14px 22px;
+            font-size: 18px;
+            background: #fff;
+            border: 2px solid #333;
+            border-radius: 0; /* Sharp edges */
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+            opacity: 0.94;
+            font-family: Arial, sans-serif;
+        }
+        #color-btn:hover {
+            background: #ffe;
+        }
+        #color-info {
+            display: none;
+            position: fixed;
+            left: 24px;
+            bottom: 90px;
+            z-index: 11;
+            background: #fffbe6;
+            color: #222;
+            border: 2px solid #333;
+            border-radius: 0; /* Sharp edges */
+            padding: 10px 18px;
+            font-size: 17px;
+            min-width: 220px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            text-align: center;
+            opacity: 0.98;
+            font-family: Arial, sans-serif;
+        }
+        @media (max-width: 800px) {
             .nav-buttons {
                 flex-direction: column;
                 gap: 10px;
-                align-items: center;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
             }
             .nav-link {
-                width: 80%;
-                font-size: 20px;
+                font-size: 18px;
+                padding: 8px 14px;
+            }
+            #color-btn, #color-info {
+                font-size: 15px;
+                padding: 10px 12px;
+                left: 12px;
+            }
+            #color-info {
+                bottom: 72px;
+                min-width: 160px;
+                padding: 8px 8px;
+            }
+            #color-btn {
+                bottom: 12px;
             }
         }
     </style>
 </head>
 <body>
-    <div class="bg-image"></div>
+    <!-- Fullscreen silly image -->
+    <img id="silly-bg" src="assets/img/monk silly.png" alt="monk silly" />
+    <div id="color-filter"></div>
+
+    <!-- Navigation bar (centered, like homepage) -->
     <div class="nav-buttons">
-        <a class="nav-link" href="homepage.html"><b>Home</b></a>
-        <a class="nav-link" href="#"><b>Why you wont survive</b></a>
-        <a class="nav-link" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
-        <a class="nav-link" href="monk-silly.html"><b>Monk Silly</b></a>
-    </div>
+    <a class="nav-link" href="homepage.html">Home</a>
+    <a class="nav-link" href="Survive.html">Why you wont survive</a>
+    <a class="nav-link" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank">Wiki</a>
+    <a class="nav-link" href="monk-silly.html">Monk Silly</a>
+	</div>
+
+    <div id="color-info"></div>
+    <button id="color-btn">Random Colour Generator</button>
+
+    <script>
+        const colorInfo = document.getElementById('color-info');
+        const colorFilter = document.getElementById('color-filter');
+
+        document.getElementById('color-btn').addEventListener('click', () => {
+            fetch('https://x-colors.yurace.pro/api/random')
+                .then(res => res.json())
+                .then(data => {
+                    const hex = data.hex.substring(1); // remove #
+                    // Fetch color name from The Color API
+                    return fetch(`https://www.thecolorapi.com/id?hex=${hex}`)
+                        .then(res => res.json())
+                        .then(colorData => {
+                            const name = colorData.name.value || "Unknown";
+                            const r = parseInt(hex.substr(0,2),16);
+                            const g = parseInt(hex.substr(2,2),16);
+                            const b = parseInt(hex.substr(4,2),16);
+                            colorFilter.style.background = `rgba(${r},${g},${b},0.4)`;
+                            colorInfo.style.display = 'block';
+                            colorInfo.innerHTML = `Current tint: <span style="font-weight:bold;color:#${hex}">${name} (#${hex.toUpperCase()})</span>`;
+                        });
+                })
+                .catch(() => {
+                    colorFilter.style.background = 'transparent';
+                    colorInfo.style.display = 'none';
+                });
+        });
+    </script>
 </body>
 </html>

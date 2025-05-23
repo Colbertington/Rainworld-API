@@ -60,6 +60,9 @@
         .nav-link:hover {
             background: #e0e0e0;
         }
+		.nav-link.active {
+        font-weight: bold;
+		}
         .info-box {
             border: 2px solid #444;
             border-radius: 10px;
@@ -90,7 +93,6 @@
             font-size: 1.3em;
             font-weight: bold;
             margin-bottom: 10px;
-            /* Text outline for visibility */
             -webkit-text-stroke: 1.2px black;
             text-stroke: 1.2px black;
             text-shadow:
@@ -99,6 +101,135 @@
               1px -1px 0 #000,
               -1px -1px 0 #000;
         }
+        .search-container {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        #search-input {
+            padding: 10px;
+            font-size: 20px;
+            border: 2px solid #444;
+            border-radius: 5px;
+            width: 60%;
+            max-width: 500px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .search-results {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .search-result-item {
+            background: white;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            width: 150px;
+            text-align: center;
+        }
+        .search-result-img {
+            width: 100px;
+            height: 100px;
+            object-fit: contain;
+            margin-bottom: 10px;
+        }
+        .search-result-name {
+            font-weight: bold;
+            font-size: 18px;
+        }
+        /* Tic Tac Toe Overlay Styles */
+        #tictactoe-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.7);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #tictactoe-board {
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 0 40px #000a;
+            padding: 32px 32px 16px 32px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-width: 340px;
+            position: relative;
+        }
+        #tictactoe-board h2 {
+            margin-top: 0;
+            margin-bottom: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 2em;
+            letter-spacing: 0.05em;
+        }
+        #tictactoe-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 80px);
+            grid-template-rows: repeat(3, 80px);
+            gap: 8px;
+            margin-bottom: 18px;
+        }
+        .tictactoe-cell {
+            width: 80px;
+            height: 80px;
+            background: #f5f5f5;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5em;
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px #0001;
+        }
+        .tictactoe-cell img {
+            width: 70px; height: 70px;
+            pointer-events: none;
+            user-select: none;
+        }
+        #tictactoe-controls {
+            font-family: Arial, sans-serif;
+            font-size: 1em;
+            margin-bottom: 10px;
+            color: #333;
+            text-align: center;
+        }
+        #tictactoe-status {
+            font-size: 1.1em;
+            min-height: 1.5em;
+            margin-bottom: 12px;
+            font-family: Arial, sans-serif;
+        }
+        #tictactoe-close {
+            position: absolute;
+            top: 10px; right: 20px;
+            font-size: 1.8em;
+            color: #888;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-weight: bold;
+            z-index: 10;
+        }
+        #tictactoe-close:hover { color: #f33; }
+        #tictactoe-restart {
+            background: #eee;
+            border: 1px solid #aaa;
+            border-radius: 8px;
+            padding: 6px 18px;
+            font-size: 1em;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+        #tictactoe-restart:hover { background: #ffd; }
         @media (max-width: 600px) {
             .nav-buttons {
                 flex-direction: column;
@@ -116,6 +247,25 @@
                 width: 80px;
                 height: 80px;
             }
+            #search-input {
+                width: 90%;
+            }
+            #tictactoe-board {
+                min-width: 0;
+                padding: 8px 2vw 8px 2vw;
+            }
+            #tictactoe-grid {
+                grid-template-columns: repeat(3, 50px);
+                grid-template-rows: repeat(3, 50px);
+                gap: 4px;
+            }
+            .tictactoe-cell {
+                width: 50px;
+                height: 50px;
+            }
+            .tictactoe-cell img {
+                width: 40px; height: 40px;
+            }
         }
     </style>
 </head>
@@ -125,33 +275,106 @@
         <div class="title">THE RAINWORLD SHELTER</div>
         <div class="subtitle">(fan made website)</div>
         <div class="nav-buttons">
-            <a class="nav-link" href="homepage.html"><b>Home</b></a>
-            <a class="nav-link" href="#"><b>Why you wont survive</b></a>
-            <a class="nav-link" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
+            <a class="nav-link" id="home-btn" href="homepage.html"><b>Home</b></a>
+            <a class="nav-link active" href="Survive.html">Why you wont survive</a>
+            <a class="nav-link" id="wiki-btn" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
             <a class="nav-link" href="monk-silly.html"><b>Monk Silly</b></a>
         </div>
-        <!-- Add the random info buttons and box below -->
+        <div class="search-container">
+            <input type="text" id="search-input" placeholder="Search for regions or slugcats..." onkeyup="searchItems()">
+        </div>
+        <div id="search-results" class="search-results"></div>
         <div style="margin-top: 40px;">
             <button class="nav-link" onclick="showRandomRegion()">Random Region</button>
             <button class="nav-link" onclick="showRandomSlugcat()">Random Slugcat</button>
         </div>
         <div id="info-box"></div>
     </div>
+
+    <!-- Tic Tac Toe Overlay -->
+    <div id="tictactoe-overlay" style="display:none;">
+      <div id="tictactoe-board">
+        <button id="tictactoe-close" title="Close">&times;</button>
+        <h2>Tic Tac Toe</h2>
+        <div id="tictactoe-controls">
+          <div>
+            <img src="assets/img/boom.jpg" style="width:28px;height:28px;vertical-align:middle;">: <b>W/A/S/D</b> move, <b>E</b> drop<br>
+            <img src="assets/img/levincopper.jpg" style="width:28px;height:28px;vertical-align:middle;">: <b>&uarr;/&larr;/&darr;/&rarr;</b> move, <b>Space</b> drop
+          </div>
+        </div>
+        <div id="tictactoe-status"></div>
+        <div id="tictactoe-grid"></div>
+        <button id="tictactoe-restart" style="display:none;">Restart</button>
+      </div>
+    </div>
+
     <script>
+        // Secret Genshin Impact wiki feature
+        let homeClickCount = 0;
+        let secretActive = false;
+        const homeBtn = document.getElementById('home-btn');
+        const wikiBtn = document.getElementById('wiki-btn');
+
+        homeBtn.addEventListener('click', function(e) {
+            if (window.location.pathname.endsWith("homepage.html") || window.location.pathname === "/" || window.location.pathname === "/index.html") {
+                e.preventDefault();
+                homeClickCount++;
+                if (homeClickCount > 12) homeClickCount = 1;
+                if (homeClickCount === 12) {
+                    secretActive = true;
+                }
+            }
+        });
+
+        wikiBtn.addEventListener('click', function(e) {
+            if (secretActive) {
+                e.preventDefault();
+                window.open('https://genshin-impact.fandom.com/wiki/Genshin_Impact_Wiki', '_blank');
+                homeClickCount = 0;
+                secretActive = false;
+            }
+        });
+
         let rainworldData = null;
 
-        // Map slugcat names to image paths and custom colors
         const slugcatVisuals = {
-          "Monk":       { color: "#FFD600", img: "assets/img/monk.png" },
-          "Survivor":   { color: "#FFFFFF", img: "assets/img/survivor.png" },
-          "Hunter":     { color: "#FF6699", img: "assets/img/hunter.png" },
-          "Gourmand":   { color: "#FFFACD", img: "assets/img/gourmand.png" }, // Pale yellow
-          "Artificer":  { color: "#FF1493", img: "assets/img/artificer.png" }, // Hot pink
-          "Rivulet":    { color: "#4FC3F7", img: "assets/img/rivulet.png" },
-          "Spearmaster":{ color: "#7C4DFF", img: "assets/img/spearmaster.png" }
+          "Monk": {
+            color: "#FFD600",
+            img: "assets/img/monk.png",
+            wiki: "https://rainworld.miraheze.org/wiki/Monk"
+          },
+          "Survivor": {
+            color: "#FFFFFF",
+            img: "assets/img/survivor.png",
+            wiki: "https://rainworld.miraheze.org/wiki/Survivor"
+          },
+          "Hunter": {
+            color: "#FF6699",
+            img: "assets/img/hunter.png",
+            wiki: "https://rainworld.miraheze.org/wiki/Hunter"
+          },
+          "Gourmand": {
+            color: "#FFFACD",
+            img: "assets/img/gourmand.png",
+            wiki: "https://rainworld.miraheze.org/wiki/Gourmand"
+          },
+          "Artificer": {
+            color: "#FF1493",
+            img: "assets/img/artificer.png",
+            wiki: "https://rainworld.miraheze.org/wiki/Artificer"
+          },
+          "Rivulet": {
+            color: "#4FC3F7",
+            img: "assets/img/rivulet.png",
+            wiki: "https://rainworld.miraheze.org/wiki/Rivulet"
+          },
+          "Spearmaster": {
+            color: "#7C4DFF",
+            img: "assets/img/spearmaster.png",
+            wiki: "https://rainworld.miraheze.org/wiki/Spearmaster"
+          }
         };
 
-        // Map region names to image filenames, widths, and wiki URLs
         const regionVisuals = {
           "Outskirts": {
             img: "assets/img/120px-Outskirts_Map_(Vanilla).png",
@@ -223,33 +446,32 @@
             width: 120,
             wiki: "https://rainworld.miraheze.org/wiki/Looks_to_the_Moon"
           }
-          // Add more regions here as needed
         };
 
-        // Fetch the API data once on page load
-        fetch('http://localhost:3000/api/rainworld')
-          .then(res => res.json())
-          .then(data => { rainworldData = data; });
+        fetch('https://rainworld-api.onrender.com/api/rainworld')
+		.then(res => res.json())
+		.then(data => {
+			rainworldData = data;
+		})
+		.catch(err => {
+			console.error('Error fetching data:', err);
+		});
 
-        function showRandomRegion() {
-            if (!rainworldData) return;
-            const regions = rainworldData.regions;
-            const region = regions[Math.floor(Math.random() * regions.length)];
+        function displayRegion(region) {
             const visuals = regionVisuals[region.name];
-
             let imgHTML = "";
             if (visuals) {
-              imgHTML = `
+                imgHTML = `
                 <div style="text-align:center; margin-top:16px;">
-                  <a href="${visuals.wiki}" target="_blank" rel="noopener">
+                    <a href="${visuals.wiki}" target="_blank" rel="noopener">
                     <img src="${visuals.img}" alt="${region.name} Map" style="width:${visuals.width}px; height:auto; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
-                  </a>
+                    </a>
                 </div>
-              `;
+                `;
             }
 
             document.getElementById('info-box').innerHTML = `
-              <div class="info-box">
+                <div class="info-box">
                 <div class="info-title">${region.name}</div>
                 <b>Enemies:</b> ${region.enemies.join(', ')}<br>
                 <b>Rooms:</b> ${region.rooms}<br>
@@ -257,23 +479,24 @@
                 <b>Shelters:</b> ${region.shelters}<br>
                 <b>Connected Regions:</b> ${region.gates.map(g => g.to).join(', ')}
                 ${imgHTML}
-              </div>
+                </div>
             `;
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-results').innerHTML = '';
         }
 
-        function showRandomSlugcat() {
-            if (!rainworldData) return;
-            const slugcats = rainworldData.slugcats;
-            const slugcat = slugcats[Math.floor(Math.random() * slugcats.length)];
-            const visuals = slugcatVisuals[slugcat.name] || { color: "#222", img: "" };
+        function displaySlugcat(slugcat) {
+            const visuals = slugcatVisuals[slugcat.name] || { color: "#222", img: "", wiki: "#" };
             document.getElementById('info-box').innerHTML = `
-              <div class="info-box">
+                <div class="info-box">
                 <div style="text-align:center;">
-                  <img src="${visuals.img}" alt="${slugcat.name}" class="slugcat-img">
+                    <a href="${visuals.wiki}" target="_blank" rel="noopener">
+                        <img src="${visuals.img}" alt="${slugcat.name}" class="slugcat-img">
+                    </a>
                 </div>
                 <div 
-                  class="slugcat-name"
-                  style="color:${visuals.color};"
+                    class="slugcat-name"
+                    style="color:${visuals.color};"
                 >${slugcat.name}</div>
                 <b>Color:</b> ${slugcat.color}<br>
                 <b>Special Abilities:</b> ${slugcat.special_abilities.join(', ')}<br>
@@ -282,8 +505,269 @@
                 <b>Max Food:</b> ${slugcat.max_food}<br>
                 <b>Damage:</b> ${slugcat.damage}<br>
                 <b>Diet:</b> ${slugcat.diet}
-              </div>
+                </div>
             `;
+            document.getElementById('search-input').value = '';
+            document.getElementById('search-results').innerHTML = '';
+        }
+
+        function showRandomRegion() {
+            if (!rainworldData) return;
+            const regions = rainworldData.regions;
+            const region = regions[Math.floor(Math.random() * regions.length)];
+            displayRegion(region);
+        }
+
+        function showRandomSlugcat() {
+            if (!rainworldData) return;
+            const slugcats = rainworldData.slugcats;
+            const slugcat = slugcats[Math.floor(Math.random() * slugcats.length)];
+            displaySlugcat(slugcat);
+        }
+
+        function showSpecificRegion(regionName) {
+            if (!rainworldData) return;
+            const region = rainworldData.regions.find(r => r.name === regionName);
+            if (!region) return;
+            displayRegion(region);
+        }
+
+        function showSpecificSlugcat(slugcatName) {
+            if (!rainworldData) return;
+            const slugcat = rainworldData.slugcats.find(s => s.name === slugcatName);
+            if (!slugcat) return;
+            displaySlugcat(slugcat);
+        }
+
+        function searchItems() {
+            if (!rainworldData) return;
+
+            const searchTerm = document.getElementById('search-input').value.toLowerCase();
+            const resultsContainer = document.getElementById('search-results');
+
+            // Tic Tac Toe secret trigger
+            if (searchTerm === "game") {
+                document.getElementById('search-input').value = "";
+                showTicTacToeOverlay();
+                resultsContainer.innerHTML = '';
+                return;
+            }
+
+            resultsContainer.innerHTML = '';
+            if (!searchTerm) return;
+
+            let matchedItems = [];
+
+            const matchedRegions = rainworldData.regions
+                .filter(region => region.name.toLowerCase().startsWith(searchTerm))
+                .slice(0, 3)
+                .map(region => ({
+                    name: region.name,
+                    img: regionVisuals[region.name] ? regionVisuals[region.name].img : '',
+                    type: 'region'
+                }));
+
+            const matchedSlugcats = rainworldData.slugcats
+                .filter(slugcat => slugcat.name.toLowerCase().startsWith(searchTerm))
+                .slice(0, 3)
+                .map(slugcat => ({
+                    name: slugcat.name,
+                    img: slugcatVisuals[slugcat.name] ? slugcatVisuals[slugcat.name].img : '',
+                    type: 'slugcat'
+                }));
+
+            matchedItems = [...matchedRegions, ...matchedSlugcats].slice(0, 3);
+
+            if (matchedItems.length > 0) {
+                matchedItems.forEach(item => {
+                    const resultElement = document.createElement('div');
+                    resultElement.className = 'search-result-item';
+                    resultElement.innerHTML = `
+                        <img src="${item.img}" alt="${item.name}" class="search-result-img">
+                        <div class="search-result-name">${item.name}</div>
+                    `;
+                    resultElement.addEventListener('click', () => {
+                        if (item.type === 'region') {
+                            showSpecificRegion(item.name);
+                        } else {
+                            showSpecificSlugcat(item.name);
+                        }
+                    });
+                    resultsContainer.appendChild(resultElement);
+                });
+            } else if (searchTerm) {
+                resultsContainer.innerHTML = '<p>No matches found</p>';
+            }
+        }
+
+        // --- Tic Tac Toe Game Overlay ---
+        const TTT_ROWS = 3, TTT_COLS = 3;
+        const TTT_BOOM = "boom";
+        const TTT_LEVIN = "levin";
+        const TTT_EMPTY = null;
+        const TTT_IMAGES = {
+            boom: "assets/img/boom.jpg",
+            levin: "assets/img/levincopper.jpg"
+        };
+        let tttState = null;
+
+        function showTicTacToeOverlay() {
+            const overlay = document.getElementById("tictactoe-overlay");
+            overlay.style.display = "flex";
+            tttInit();
+        }
+
+        function hideTicTacToeOverlay() {
+            document.getElementById("tictactoe-overlay").style.display = "none";
+            document.removeEventListener("keydown", tttKeyHandler);
+        }
+
+        document.getElementById("tictactoe-close").onclick = hideTicTacToeOverlay;
+        document.getElementById("tictactoe-restart").onclick = tttInit;
+
+        function tttInit() {
+            tttState = {
+                board: Array.from({length: TTT_ROWS}, () => Array(TTT_COLS).fill(TTT_EMPTY)),
+                turn: TTT_BOOM, // boom starts
+                selectedRow: 1, // 0,1,2
+                selectedCol: 1, // 0,1,2
+                gameOver: false
+            };
+            tttRender();
+            document.addEventListener("keydown", tttKeyHandler);
+        }
+
+        function tttRender() {
+            const grid = document.getElementById("tictactoe-grid");
+            grid.innerHTML = "";
+            for (let r = 0; r < TTT_ROWS; r++) {
+                for (let c = 0; c < TTT_COLS; c++) {
+                    const cell = document.createElement("div");
+                    cell.className = "tictactoe-cell";
+                    cell.dataset.row = r;
+                    cell.dataset.col = c;
+                    if (tttState.board[r][c]) {
+                        const img = document.createElement("img");
+                        img.src = TTT_IMAGES[tttState.board[r][c]];
+                        img.alt = tttState.board[r][c];
+                        cell.appendChild(img);
+                    }
+                    // Highlight the selected cell for the current player
+                    if (!tttState.gameOver &&
+                        r === tttState.selectedRow &&
+                        c === tttState.selectedCol) {
+                        cell.style.boxShadow = "0 0 0 4px #ffd600";
+                    }
+                    grid.appendChild(cell);
+                }
+            }
+            // Status
+            const status = document.getElementById("tictactoe-status");
+            if (tttState.gameOver) {
+                if (tttState.winner === TTT_BOOM)
+                    status.innerHTML = `<img src="${TTT_IMAGES.boom}" style="width:28px;vertical-align:middle;"> wins!`;
+                else if (tttState.winner === TTT_LEVIN)
+                    status.innerHTML = `<img src="${TTT_IMAGES.levin}" style="width:28px;vertical-align:middle;"> wins!`;
+                else
+                    status.textContent = "It's a draw!";
+                document.getElementById("tictactoe-restart").style.display = "";
+            } else {
+                status.innerHTML = (tttState.turn === TTT_BOOM
+                    ? `<img src="${TTT_IMAGES.boom}" style="width:28px;vertical-align:middle;">'s turn`
+                    : `<img src="${TTT_IMAGES.levin}" style="width:28px;vertical-align:middle;">'s turn`);
+                document.getElementById("tictactoe-restart").style.display = "none";
+            }
+        }
+
+        function tttKeyHandler(e) {
+            if (!tttState || tttState.gameOver) return;
+            // BOOM controls: W/A/S/D/E
+            if (tttState.turn === TTT_BOOM) {
+                if (e.key === "w" || e.key === "W") {
+                    tttState.selectedRow = (tttState.selectedRow + TTT_ROWS - 1) % TTT_ROWS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === "s" || e.key === "S") {
+                    tttState.selectedRow = (tttState.selectedRow + 1) % TTT_ROWS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === "a" || e.key === "A") {
+                    tttState.selectedCol = (tttState.selectedCol + TTT_COLS - 1) % TTT_COLS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === "d" || e.key === "D") {
+                    tttState.selectedCol = (tttState.selectedCol + 1) % TTT_COLS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === "e" || e.key === "E") {
+                    tttDropToken(TTT_BOOM, tttState.selectedRow, tttState.selectedCol);
+                    e.preventDefault();
+                }
+            }
+            // LEVIN controls: Arrow keys + Space
+            else if (tttState.turn === TTT_LEVIN) {
+                if (e.key === "ArrowUp") {
+                    tttState.selectedRow = (tttState.selectedRow + TTT_ROWS - 1) % TTT_ROWS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === "ArrowDown") {
+                    tttState.selectedRow = (tttState.selectedRow + 1) % TTT_ROWS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === "ArrowLeft") {
+                    tttState.selectedCol = (tttState.selectedCol + TTT_COLS - 1) % TTT_COLS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === "ArrowRight") {
+                    tttState.selectedCol = (tttState.selectedCol + 1) % TTT_COLS;
+                    tttRender();
+                    e.preventDefault();
+                } else if (e.key === " ") {
+                    tttDropToken(TTT_LEVIN, tttState.selectedRow, tttState.selectedCol);
+                    e.preventDefault();
+                }
+            }
+        }
+
+        function tttDropToken(player, row, col) {
+            if (!tttState.board[row][col]) {
+                tttState.board[row][col] = player;
+                tttCheckWin();
+                tttState.turn = (player === TTT_BOOM ? TTT_LEVIN : TTT_BOOM);
+                tttState.selectedRow = 1;
+                tttState.selectedCol = 1;
+                tttRender();
+            }
+        }
+
+        function tttCheckWin() {
+            const b = tttState.board;
+            const winLines = [
+                // Rows
+                [[0,0],[0,1],[0,2]],
+                [[1,0],[1,1],[1,2]],
+                [[2,0],[2,1],[2,2]],
+                // Cols
+                [[0,0],[1,0],[2,0]],
+                [[0,1],[1,1],[2,1]],
+                [[0,2],[1,2],[2,2]],
+                // Diagonals
+                [[0,0],[1,1],[2,2]],
+                [[0,2],[1,1],[2,0]]
+            ];
+            for (const line of winLines) {
+                const [a,b1,c] = line;
+                const val = tttState.board[a[0]][a[1]];
+                if (val && val === tttState.board[b1[0]][b1[1]] && val === tttState.board[c[0]][c[1]]) {
+                    tttState.gameOver = true;
+                    tttState.winner = val;
+                    return;
+                }
+            }
+            if (b.flat().every(cell => cell)) {
+                tttState.gameOver = true;
+                tttState.winner = null;
+            }
         }
     </script>
 </body>

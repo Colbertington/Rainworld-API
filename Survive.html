@@ -1,0 +1,844 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>Why You Won't Survive</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <style>
+        html, body { height: 100%; margin: 0; padding: 0; }
+        body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            position: relative;
+            background: url('assets/img/rainworld.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+        body::before {
+            content: ""; 
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: rgba(255,255,255,0.6);
+            pointer-events: none;
+            z-index: 1;
+        }
+        .nav-buttons {
+            position: fixed;
+            top: 28px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 20;
+            display: flex;
+            gap: 20px;
+        }
+        .nav-link {
+            background: white;
+            color: black;
+            border: none;
+            font-size: 28px;
+            padding: 10px 30px;
+            border-radius: 0;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+            opacity: 0.95;
+            transition: background 0.2s;
+            font-family: Arial, sans-serif;
+        }
+        .nav-link:hover { background: #ffe; }
+        .nav-link.active { font-weight: bold; }
+        .circle-section {
+            position: relative;
+            width: 100vw;
+            min-height: 60vh;
+            margin-top: 120px;
+            margin-bottom: 220px;
+            z-index: 2;
+        }
+        .circle-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+            max-width: 1100px;
+            margin: 0 auto;
+            height: 100%;
+            position: relative;
+        }
+        .circle-col {
+            flex: 0 0 48%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        .circle-col.right { align-items: flex-end; }
+        .circle-btn {
+            width: 110px;
+            height: 110px;
+            background: #fff;
+            color: #222;
+            border: 3px solid #333;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25em;
+            font-family: Arial, sans-serif;
+            font-weight: bold;
+            margin: 40px 0;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.11);
+            transition: background 0.18s, color 0.18s, border 0.18s;
+            z-index: 3;
+            user-select: none;
+        }
+        .circle-btn.active, .circle-btn:focus {
+            background: #ffe;
+            color: #111;
+            border-color: #FFD600;
+            outline: none;
+        }
+        .info-box {
+            display: none;
+            position: fixed;
+            top: 160px;
+            left: 50%;
+            transform: translate(-50%, 0);
+            background: #fffbe6;
+            border: 2.5px solid #333;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+            border-radius: 30px;
+            padding: 38px 48px 34px 48px;
+            font-size: 1.13em;
+            font-family: Arial, sans-serif;
+            color: #222;
+            z-index: 30;
+            text-align: left;
+            line-height: 1.4;
+            min-width: 280px;
+            max-width: 600px;
+            width: 80vw;
+        }
+        .info-box.visible {
+            display: block;
+            animation: fadeInBox 0.22s;
+        }
+        @keyframes fadeInBox {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        #random-enemy-api {
+            position: fixed;
+            bottom: 24px;
+            left: 24px;
+            z-index: 100;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-start;
+        }
+        #behavior-filter-btn {
+            background: #fff;
+            border: 2px solid #333;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 12px 22px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            transition: background 0.18s, border 0.18s;
+        }
+        #behavior-filter-btn:hover {
+            background: #ffe;
+            border-color: #FFD600;
+        }
+        #show-enemy-btn {
+            background: #fff;
+            border: 2px solid #333;
+            border-radius: 12px;
+            font-size: 1.1em;
+            font-weight: bold;
+            padding: 12px 22px;
+            cursor: pointer;
+            margin-bottom: 10px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            transition: background 0.18s, border 0.18s;
+        }
+        #show-enemy-btn:hover {
+            background: #ffe;
+            border-color: #FFD600;
+        }
+        #enemy-search {
+            margin-top:0;
+            margin-bottom:10px;
+            font-size:1em;
+            padding:8px;
+            width:220px;
+            border:1.5px solid #888;
+            border-radius:6px;
+        }
+        #search-results {
+            background:#fffbe6;
+            border:1.5px solid #ccc;
+            border-radius:6px;
+            margin-bottom:10px;
+            max-height:200px;
+            overflow-y:auto;
+            display:none;
+            width:220px;
+        }
+        .search-result-item {
+            padding:8px;
+            cursor:pointer;
+            border-bottom:1px solid #eee;
+        }
+        .search-result-item:last-child { border-bottom: none; }
+        .search-result-item:hover, .search-result-item:focus {
+            background: #ffe;
+            outline: none;
+        }
+        #random-enemy-box {
+            background: #fffbe6;
+            border: 2.5px solid #333;
+            border-radius: 18px;
+            box-shadow: 0 4px 32px rgba(0,0,0,0.15);
+            padding: 22px 32px 18px 32px;
+            min-width: 220px;
+            max-width: 320px;
+            display: none;
+            flex-direction: column;
+            align-items: center;
+            animation: fadeInBox 0.22s;
+            transition: transform 0.3s ease;
+        }
+        #random-enemy-box img {
+            width: 90px;
+            height: 90px;
+            object-fit: contain;
+            margin-bottom: 12px;
+            border-radius: 8px;
+            border: 1.5px solid #ddd;
+            background: #fff;
+        }
+        #random-enemy-box .enemy-name {
+            font-size: 1.2em;
+            font-weight: bold;
+            color: #222;
+            margin-bottom: 6px;
+            text-align: center;
+        }
+        #random-enemy-box .enemy-category {
+            font-size: 1em;
+            color: #888;
+            text-align: center;
+        }
+        /* Overlay for secret image */
+        #levin-copper-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100vw; height: 100vh;
+            background: rgba(0,0,0,0.4);
+            z-index: 10000;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        #levin-copper-overlay img {
+            max-width: 50vw;
+            max-height: 50vh;
+            border-radius: 18px;
+            box-shadow: 0 0 40px #000a;
+            background: #fff;
+            display: block;
+        }
+        @media (max-width: 900px) {
+            .circle-row {
+                flex-direction: column;
+                align-items: center;
+                gap: 0;
+            }
+            .circle-col, .circle-col.right {
+                align-items: center;
+                width: 100%;
+            }
+            .circle-btn {
+                margin: 30px 0;
+            }
+            .info-box {
+                max-width: 95vw;
+                min-width: 0;
+                padding: 18px 6vw 18px 6vw;
+            }
+        }
+        @media (max-width: 600px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+                top: 10px;
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            .nav-link {
+                font-size: 18px;
+                padding: 8px 14px;
+            }
+            .circle-btn {
+                width: 80px;
+                height: 80px;
+                font-size: 1em;
+            }
+            .info-box {
+                font-size: 1em;
+                padding: 14px 2vw 14px 2vw;
+            }
+            #random-enemy-api {
+                left: 6px;
+                bottom: 6px;
+            }
+            #random-enemy-box {
+                padding: 12px 6px 10px 6px;
+                min-width: 120px;
+                max-width: 90vw;
+            }
+            #show-enemy-btn, #behavior-filter-btn {
+                font-size: 1em;
+                padding: 8px 10px;
+            }
+            #enemy-search, #search-results { width: 150px; }
+            #levin-copper-overlay img {
+                max-width: 90vw;
+                max-height: 40vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="nav-buttons">
+        <a class="nav-link" href="homepage.html">Home</a>
+        <a class="nav-link active" href="Survive.html">Why you wont survive</a>
+        <a class="nav-link" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank">Wiki</a>
+        <a class="nav-link" href="monk-silly.html">Monk Silly</a>
+    </div>
+    <div class="circle-section">
+        <div class="circle-row">
+            <div class="circle-col">
+                <div class="circle-btn" data-box="creatures">Creatures</div>
+                <div class="circle-btn" data-box="you">You</div>
+            </div>
+            <div class="circle-col right">
+                <div class="circle-btn" data-box="immersive">Immersive</div>
+                <div class="circle-btn" data-box="environment">Environment</div>
+            </div>
+        </div>
+        <div class="info-box" id="creatures-box">
+            <strong>Creatures</strong><br>
+            All the creatures in the game can and will kill you. Each incredibly complex and dangerous. The most common creature, the lizards, have incredible code to dictate their behaviours. Each lizard has their own colour, and each colour does something different and unique, no one lizard is exactly the same. And that just applies to the lizards, there are many other creatures such as the towering vultures, and the incredible intelligent species of Scavengers, who communicate to each other, and have their own reputation system with you.
+        </div>
+        <div class="info-box" id="immersive-box">
+            <strong>Immersive</strong><br>
+            Rain world has an Incredible Ecosystem that completely runs on its own without you. things you cant see are still happening in the background, like creatures fighting, scavengers getting gear, more creatures spawning, them finding different locations to get you. everything runs on itself.
+        </div>
+        <div class="info-box" id="you-box">
+            <strong>You</strong><br>
+            You as a character are weak, you are at the bottom of the food chain, the only thing below you is a simple batfly. There are limited ways you can defend yourself, mostly consistent of rocks and spears. But if you work hard enough, you can get gear like explosive spears and bombs. And if you take down the mighty vulture and pry their mask off, you can wear it as a mask and scare off lizards, so while the game may seem hard, you can manage yourself.
+        </div>
+        <div class="info-box" id="environment-box">
+            <strong>Environment</strong><br>
+            The environment is harsh, especially the brutal rain enforced time limit you have each day. Not only this, but you have no clue where to go, there are very little hints of where you have to go, you are just lost. If you wish to progress to other areas, you must prove your skill and live enough days successfully to be able to go through. There are constant death pits in every region, and not only that, there are certain plants that want to kill you, like kelp, and fake poles.
+        </div>
+    </div>
+    <div style="height:160px;"></div>
+    <!-- Random Enemy API at bottom left -->
+    <div id="random-enemy-api">
+        <button id="behavior-filter-btn">Filter: All</button>
+        <button id="show-enemy-btn">Random Enemy</button>
+        <input
+            type="text"
+            id="enemy-search"
+            placeholder="Search enemies..."
+            autocomplete="off"
+        >
+        <div id="search-results"></div>
+        <div id="random-enemy-box"></div>
+    </div>
+
+    <script>
+    // Circle click logic
+    const circles = document.querySelectorAll('.circle-btn');
+    const boxes = {
+        creatures: document.getElementById('creatures-box'),
+        immersive: document.getElementById('immersive-box'),
+        you: document.getElementById('you-box'),
+        environment: document.getElementById('environment-box')
+    };
+    let openBox = null;
+    let activeCircle = null;
+
+    circles.forEach(circle => {
+        circle.addEventListener('click', () => {
+            const boxKey = circle.getAttribute('data-box');
+            const box = boxes[boxKey];
+
+            if (activeCircle === circle) {
+                box.classList.remove('visible');
+                circle.classList.remove('active');
+                openBox = null;
+                activeCircle = null;
+            } else {
+                if (openBox) openBox.classList.remove('visible');
+                if (activeCircle) activeCircle.classList.remove('active');
+                box.classList.add('visible');
+                circle.classList.add('active');
+                openBox = box;
+                activeCircle = circle;
+            }
+        });
+    });
+
+    // --- Enemy API and Filter Logic ---
+    let enemies = [];
+    let lastEnemyIndex = -1;
+    const behaviorTypes = [
+        "All",
+        "Hostile",
+        "Neutral",
+        "Edible",
+        "Hunter/Lineage"
+    ];
+    let currentFilterIndex = 0;
+
+    const filterBtn = document.getElementById('behavior-filter-btn');
+    const showEnemyBtn = document.getElementById('show-enemy-btn');
+    const searchInput = document.getElementById('enemy-search');
+    const searchResults = document.getElementById('search-results');
+    const enemyBox = document.getElementById('random-enemy-box');
+
+    function getFilteredEnemies() {
+        const currentType = behaviorTypes[currentFilterIndex];
+        if (currentType === 'All') return enemies;
+        return enemies.filter(e => {
+            const cat = (e.category || '').toLowerCase().replace(/\s+/g, '');
+            const filter = currentType.toLowerCase().replace(/\s+/g, '');
+            return cat === filter;
+        });
+    }
+
+    function renderSearchResults(filtered) {
+        if (!filtered.length) {
+            searchResults.innerHTML = "<div style='padding:8px; color:#888;'>No enemies found.</div>";
+            searchResults.style.display = 'block';
+            return;
+        }
+        searchResults.innerHTML = filtered.map(enemy => `
+            <div class="search-result-item" tabindex="0">
+                <strong>${enemy.name}</strong> <span style="color:#888;">${enemy.category || ''}</span>
+            </div>
+        `).join('');
+        searchResults.style.display = 'block';
+
+        const items = searchResults.querySelectorAll('.search-result-item');
+        items.forEach((item, idx) => {
+            item.onclick = () => showEnemy(filtered[idx]);
+            item.onkeydown = (e) => {
+                if (e.key === "Enter" || e.key === " ") {
+                    showEnemy(filtered[idx]);
+                }
+            };
+        });
+    }
+
+    function showEnemy(enemy) {
+        const wikiUrl = `https://rainworld.miraheze.org/wiki/${encodeURIComponent(enemy.name.replace(/ /g, "_"))}`;
+        enemyBox.innerHTML = `
+            <a href="${wikiUrl}" target="_blank" title="View on Rain World Wiki">
+                <img src="${enemy.img}" alt="${enemy.name}">
+            </a>
+            <div class="enemy-name">${enemy.name}</div>
+            <div class="enemy-category">${enemy.category || ''}</div>
+        `;
+        enemyBox.style.display = 'flex';
+        searchResults.style.display = 'none';
+        searchInput.value = '';
+    }
+
+    fetch('https://rainworld-api.onrender.com/EnemyAPI.json')
+        .then(res => {
+            if (!res.ok) {
+                throw new Error('Network response was not ok: ' + res.status + ' ' + res.statusText);
+            }
+            return res.json();
+        })
+        .then(data => {
+            enemies = data;
+            filterBtn.textContent = 'Filter: ' + behaviorTypes[currentFilterIndex];
+        })
+        .catch(err => {
+            console.error('Error fetching EnemyAPI:', err);
+            if (enemyBox) enemyBox.textContent = "Failed to load enemy data.";
+        });
+
+    filterBtn.onclick = function() {
+        currentFilterIndex = (currentFilterIndex + 1) % behaviorTypes.length;
+        filterBtn.textContent = 'Filter: ' + behaviorTypes[currentFilterIndex];
+        const filtered = getFilteredEnemies();
+        if (enemyBox.style.display === 'flex') {
+            if (filtered.length) {
+                let idx = Math.floor(Math.random() * filtered.length);
+                showEnemy(filtered[idx]);
+            } else {
+                enemyBox.innerHTML = "<div style='padding:16px; color:#888;'>No enemies found for this filter.</div>";
+            }
+        }
+        searchResults.style.display = 'none';
+        searchInput.value = '';
+    };
+
+    showEnemyBtn.onclick = function() {
+        const filtered = getFilteredEnemies();
+        if (!filtered.length) {
+            enemyBox.innerHTML = "<div style='padding:16px; color:#888;'>No enemies found for this filter.</div>";
+            enemyBox.style.display = 'flex';
+            return;
+        }
+        let idx;
+        do {
+            idx = Math.floor(Math.random() * filtered.length);
+        } while (filtered.length > 1 && idx === lastEnemyIndex);
+        lastEnemyIndex = idx;
+        showEnemy(filtered[idx]);
+    };
+
+    searchInput.addEventListener('input', function () {
+        const query = this.value.trim().toLowerCase();
+
+        // Secret: boyfriend after levin copper overlay
+        if (
+            query === 'boyfriend' &&
+            document.getElementById('levin-copper-overlay')
+        ) {
+            showBombImage();
+            return;
+        }
+
+        if (!query) {
+            searchResults.style.display = 'none';
+            return;
+        }
+        const filtered = getFilteredEnemies().filter(enemy =>
+            enemy.name.toLowerCase().startsWith(query)
+        );
+        renderSearchResults(filtered);
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!searchResults.contains(e.target) && e.target !== searchInput) {
+            searchResults.style.display = 'none';
+        }
+    });
+
+// --- wwssadad + Enter Secret Feature ---
+let wwssadadBuffer = [];
+const secretSequence = ['w','w','s','s','a','d','a','d'];
+
+document.addEventListener('keydown', function(e) {
+    if (/^[a-zA-Z]$/.test(e.key)) {
+        wwssadadBuffer.push(e.key.toLowerCase());
+        if (wwssadadBuffer.length > secretSequence.length) {
+            wwssadadBuffer.shift();
+        }
+    }
+    if (e.key === 'Enter') {
+        if (wwssadadBuffer.join('') === secretSequence.join('')) {
+            showLevinOverlay();
+            wwssadadBuffer = [];
+        }
+    }
+});
+
+// --- Overlay logic ---
+function showLevinOverlay() {
+    let overlay = document.getElementById('levin-copper-overlay');
+    if (overlay) overlay.remove();
+
+    overlay = document.createElement('div');
+    overlay.id = 'levin-copper-overlay';
+    overlay.style.position = 'fixed';
+    overlay.style.top = '0';
+    overlay.style.left = '0';
+    overlay.style.width = '100vw';
+    overlay.style.height = '100vh';
+    overlay.style.background = 'rgba(0,0,0,0.4)';
+    overlay.style.zIndex = '10000'; // back layer
+    overlay.style.display = 'flex';
+    overlay.style.justifyContent = 'center';
+    overlay.style.alignItems = 'center';
+
+    const img = document.createElement('img');
+    img.id = 'levin-copper-img';
+    img.src = 'assets/img/levincopper.jpg';
+    img.alt = 'Levin Copper';
+    img.style.maxWidth = '50vw';
+    img.style.maxHeight = '50vh';
+    img.style.borderRadius = '18px';
+    img.style.boxShadow = '0 0 40px #000a';
+    img.style.background = '#fff';
+    img.style.userSelect = 'none';
+    img.style.outline = 'none';
+    img.draggable = false;
+    img.tabIndex = -1;
+    img.addEventListener('mousedown', e => e.preventDefault());
+    img.addEventListener('selectstart', e => e.preventDefault());
+    img.addEventListener('dblclick', e => e.preventDefault());
+
+    overlay.appendChild(img);
+    document.body.appendChild(overlay);
+}
+
+// --- Bomb & Explosion Secret Feature ---
+let bombClickCount = 0;
+let codeEntryActive = false;
+let codeBuffer = [];
+const codeSequence = ['a','w','w','a','b'];
+
+searchInput.addEventListener('input', function () {
+    const query = this.value.trim().toLowerCase();
+
+    // Secret: boyfriend after levin copper overlay
+    if (
+        query === 'boyfriend' &&
+        document.getElementById('levin-copper-overlay')
+    ) {
+        replaceLevinWithBomb();
+        return;
+    }
+    // ... your existing search/filter code here ...
+});
+
+function replaceLevinWithBomb() {
+    bombClickCount = 0;
+    codeEntryActive = false;
+    codeBuffer = [];
+    const overlay = document.getElementById('levin-copper-overlay');
+    if (!overlay) return;
+
+    const bombImg = document.createElement('img');
+    bombImg.id = 'secret-bomb';
+    bombImg.src = 'assets/img/bomb.jpg';
+    bombImg.alt = 'Bomb';
+    bombImg.style.cursor = 'pointer';
+    bombImg.style.maxWidth = '50vw';
+    bombImg.style.maxHeight = '50vh';
+    bombImg.style.borderRadius = '18px';
+    bombImg.style.boxShadow = '0 0 40px #000a';
+    bombImg.style.background = '#fff';
+    bombImg.style.userSelect = 'none';
+    bombImg.style.outline = 'none';
+    bombImg.style.opacity = '1';
+    bombImg.draggable = false;
+    bombImg.tabIndex = -1;
+    bombImg.addEventListener('mousedown', e => e.preventDefault());
+    bombImg.addEventListener('selectstart', e => e.preventDefault());
+    bombImg.addEventListener('dblclick', e => e.preventDefault());
+
+    const oldImg = overlay.querySelector('img');
+    if (oldImg) oldImg.replaceWith(bombImg);
+
+    bombImg.addEventListener('click', handleBombClick);
+    bombImg.style.zIndex = '10002'; // front layer
+}
+
+function handleBombClick() {
+    if (searchInput) searchInput.blur();
+    if (codeEntryActive) return;
+    bombClickCount++;
+    if (bombClickCount >= 12) {
+        codeEntryActive = true;
+        codeBuffer = [];
+    }
+}
+
+// Listen for code entry while bomb is showing and codeEntryActive is true
+document.addEventListener('keydown', function(e) {
+    if (!codeEntryActive) return;
+    if (/^[a-zA-Z]$/.test(e.key)) {
+        codeBuffer.push(e.key.toLowerCase());
+        if (codeBuffer.length > codeSequence.length) {
+            codeBuffer.shift();
+        }
+    }
+    if (e.key === 'Enter') {
+        if (codeBuffer.join('') === codeSequence.join('')) {
+            showExplosionThenBoom();
+        }
+    }
+});
+
+function showExplosionThenBoom() {
+    const overlay = document.getElementById('levin-copper-overlay');
+    if (!overlay) return;
+    const bombImg = overlay.querySelector('img');
+    if (!bombImg) return;
+
+    // Show explosion image
+    const explosionImg = document.createElement('img');
+    explosionImg.id = 'explosion-img';
+    explosionImg.src = 'assets/img/explosion.jpg';
+    explosionImg.alt = 'Explosion';
+    explosionImg.style.maxWidth = '50vw';
+    explosionImg.style.maxHeight = '50vh';
+    explosionImg.style.borderRadius = '18px';
+    explosionImg.style.boxShadow = '0 0 40px #000a';
+    explosionImg.style.background = '#fff';
+    explosionImg.style.userSelect = 'none';
+    explosionImg.style.outline = 'none';
+    explosionImg.style.opacity = '1';
+    explosionImg.draggable = false;
+    explosionImg.tabIndex = -1;
+    explosionImg.addEventListener('mousedown', e => e.preventDefault());
+    explosionImg.addEventListener('selectstart', e => e.preventDefault());
+    explosionImg.addEventListener('dblclick', e => e.preventDefault());
+    explosionImg.style.zIndex = '10002'; // front layer
+
+    bombImg.replaceWith(explosionImg);
+
+    setTimeout(() => {
+        showBoom();
+    }, 400); // Show explosion for 0.4s
+}
+
+function showBoom() {
+    const overlay = document.getElementById('levin-copper-overlay');
+    if (!overlay) return;
+    const prevImg = overlay.querySelector('img');
+    if (!prevImg) return;
+
+    // Insert boom image (front layer)
+    const boomImg = document.createElement('img');
+    boomImg.src = 'assets/img/boom.jpg';
+    boomImg.alt = 'Boom';
+    boomImg.style.maxWidth = '50vw';
+    boomImg.style.maxHeight = '50vh';
+    boomImg.style.borderRadius = '18px';
+    boomImg.style.boxShadow = '0 0 40px #000a';
+    boomImg.style.background = '#fff';
+    boomImg.style.userSelect = 'none';
+    boomImg.style.outline = 'none';
+    boomImg.style.opacity = '1';
+    boomImg.draggable = false;
+    boomImg.tabIndex = -1;
+    boomImg.style.zIndex = '10002';
+    boomImg.addEventListener('mousedown', e => e.preventDefault());
+    boomImg.addEventListener('selectstart', e => e.preventDefault());
+    boomImg.addEventListener('dblclick', e => e.preventDefault());
+
+    prevImg.replaceWith(boomImg);
+
+    // Now spawn a constant stream of floating bombs (middle layer)
+    startFloatingBombStream();
+    bombClickCount = 0;
+    codeEntryActive = false;
+    codeBuffer = [];
+}
+
+// Spawns a constant stream of bombs that float upwards from random positions along the bottom
+let bombStreamInterval = null;
+let bombStreamActive = false;
+
+function startFloatingBombStream() {
+    stopFloatingBombStream(); // Ensure no duplicate streams
+    bombStreamActive = true;
+    bombStreamInterval = setInterval(() => {
+        if (!bombStreamActive) return;
+        spawnFloatingBombUpwards();
+    }, 120); // Spawn a new bomb every 120ms
+}
+
+function stopFloatingBombStream() {
+    bombStreamActive = false;
+    if (bombStreamInterval) {
+        clearInterval(bombStreamInterval);
+        bombStreamInterval = null;
+    }
+}
+
+// Stop stream if overlay is removed
+const observer = new MutationObserver(() => {
+    if (!document.getElementById('levin-copper-overlay')) {
+        stopFloatingBombStream();
+    }
+});
+observer.observe(document.body, { childList: true });
+
+// Spawns one bomb at a random horizontal position along the bottom, floating upwards
+function spawnFloatingBombUpwards() {
+    const vw = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const vh = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    const bomb = document.createElement('img');
+    bomb.src = 'assets/img/bomb.jpg';
+    bomb.alt = 'Mini Bomb';
+    bomb.style.position = 'fixed';
+    bomb.style.width = '48px';
+    bomb.style.height = '48px';
+    bomb.style.pointerEvents = 'none';
+    bomb.style.userSelect = 'none';
+    bomb.style.opacity = '1';
+    bomb.style.transition = 'opacity 0.5s linear';
+    bomb.style.zIndex = '10001'; // middle layer, below boom
+
+    // Random start position anywhere horizontally, at the bottom
+    const startX = Math.random() * (vw - 48);
+    const startY = vh - 48;
+    bomb.style.left = `${startX}px`;
+    bomb.style.top = `${startY}px`;
+
+    document.body.appendChild(bomb);
+
+    // Animate upwards using delta time for consistent speed
+    let y = startY;
+    const speed = 10 + Math.random() * 4; // fast vertical speed
+    let lastTimestamp = null;
+    let hasExploded = false;
+
+    function animateBomb(timestamp) {
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const delta = (timestamp - lastTimestamp) || 16; // ms since last frame
+        lastTimestamp = timestamp;
+        y -= speed * (delta / 16.67); // 16.67ms ~ 60fps
+
+        bomb.style.top = `${y}px`;
+
+        if (y < -48 && !hasExploded) {
+            hasExploded = true;
+            bomb.src = 'assets/img/explosion.jpg';
+            setTimeout(() => {
+                fadeOut(bomb);
+            }, 220 + Math.random() * 180);
+        } else if (!hasExploded && bombStreamActive) {
+            requestAnimationFrame(animateBomb);
+        } else if (!hasExploded) {
+            bomb.remove();
+        }
+    }
+    requestAnimationFrame(animateBomb);
+}
+
+// Fade out effect for explosion image
+function fadeOut(element) {
+    let opacity = 1;
+    const timer = setInterval(function() {
+        if (opacity <= 0.05) {
+            clearInterval(timer);
+            element.remove();
+        } else {
+            opacity -= 0.07;
+            element.style.opacity = opacity;
+        }
+    }, 30);
+}
+    </script>
+</body>
+</html>
