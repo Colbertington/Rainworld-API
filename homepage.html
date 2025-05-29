@@ -1,493 +1,628 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>THE RAINWORLD SHELTER</title>
-    <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: Arial, sans-serif;
-            min-height: 100vh;
-            position: relative;
-            overflow-x: hidden;
-        }
-        .bg-image {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100vw;
-            height: 100vh;
-            background: url('assets/img/rainworld.jpg') no-repeat center center fixed;
-            background-size: cover;
-            opacity: 0.33;
-            z-index: 0;
-        }
-        .content {
-            position: relative;
-            z-index: 1;
-            text-align: center;
-            padding-top: 40px;
-        }
-        .title {
-            font-size: 36px;
-            font-weight: normal;
-        }
-        .subtitle {
-            font-size: 24px;
-            margin-top: 5px;
-        }
-        .nav-buttons {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-            gap: 20px;
-        }
-        .nav-link {
-            background: white;
-            color: black;
-            border: none;
-            font-size: 28px;
-            padding: 10px 30px;
-            margin: 0 5px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            cursor: pointer;
-            transition: background 0.2s;
-            text-decoration: none;
-            display: inline-block;
-        }
-        .nav-link:hover {
-            background: #e0e0e0;
-        }
-		.nav-link.active {
-        font-weight: bold;
-		}
-        .info-box {
-            border: 2px solid #444;
-            border-radius: 10px;
-            background: #fffbe6;
-            padding: 18px;
-            margin: 0 auto;
-            margin-top: 30px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-            font-size: 1.1em;
-            text-align: left;
-            max-width: 500px;
-        }
-        .info-title {
-            font-size: 1.3em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #222;
-        }
-        .slugcat-img {
-            width: 120px;
-            height: 120px;
-            object-fit: contain;
-            display: block;
-            margin: 0 auto 8px auto;
-        }
-        .slugcat-name {
-            text-align: center;
-            font-size: 1.3em;
-            font-weight: bold;
-            margin-bottom: 10px;
-            -webkit-text-stroke: 1.2px black;
-            text-stroke: 1.2px black;
-            text-shadow:
-              1px 1px 0 #000,
-              -1px 1px 0 #000,
-              1px -1px 0 #000,
-              -1px -1px 0 #000;
-        }
-        .search-container {
-            display: flex;
-            justify-content: center;
-            margin-top: 30px;
-        }
-        #search-input {
-            padding: 10px;
-            font-size: 20px;
-            border: 2px solid #444;
-            border-radius: 5px;
-            width: 60%;
-            max-width: 500px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-        }
-        .search-results {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            gap: 20px;
-            margin-top: 20px;
-        }
-        .search-result-item {
-            background: white;
-            padding: 15px;
-            border-radius: 8px;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-            width: 150px;
-            text-align: center;
-        }
-        .search-result-img {
-            width: 100px;
-            height: 100px;
-            object-fit: contain;
-            margin-bottom: 10px;
-        }
-        .search-result-name {
-            font-weight: bold;
-            font-size: 18px;
-        }
-        /* Tic Tac Toe Overlay Styles */
-        #tictactoe-overlay {
-            position: fixed;
-            top: 0; left: 0;
-            width: 100vw; height: 100vh;
-            background: rgba(0,0,0,0.7);
-            z-index: 10000;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-        #tictactoe-board {
-            background: #fff;
-            border-radius: 18px;
-            box-shadow: 0 0 40px #000a;
-            padding: 32px 32px 16px 32px;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            min-width: 340px;
-            position: relative;
-        }
-        #tictactoe-board h2 {
-            margin-top: 0;
-            margin-bottom: 12px;
-            font-family: Arial, sans-serif;
-            font-size: 2em;
-            letter-spacing: 0.05em;
-        }
-        #tictactoe-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 80px);
-            grid-template-rows: repeat(3, 80px);
-            gap: 8px;
-            margin-bottom: 18px;
-        }
-        .tictactoe-cell {
-            width: 80px;
-            height: 80px;
-            background: #f5f5f5;
-            border-radius: 12px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 2.5em;
-            cursor: pointer;
-            position: relative;
-            overflow: hidden;
-            box-shadow: 0 2px 8px #0001;
-        }
-        .tictactoe-cell img {
-            width: 70px; height: 70px;
-            pointer-events: none;
-            user-select: none;
-        }
-        #tictactoe-controls {
-            font-family: Arial, sans-serif;
-            font-size: 1em;
-            margin-bottom: 10px;
-            color: #333;
-            text-align: center;
-        }
-        #tictactoe-status {
-            font-size: 1.1em;
-            min-height: 1.5em;
-            margin-bottom: 12px;
-            font-family: Arial, sans-serif;
-        }
-        #tictactoe-close {
-            position: absolute;
-            top: 10px; right: 20px;
-            font-size: 1.8em;
-            color: #888;
-            background: none;
-            border: none;
-            cursor: pointer;
-            font-weight: bold;
-            z-index: 10;
-        }
-        #tictactoe-close:hover { color: #f33; }
-        #tictactoe-restart {
-            background: #eee;
-            border: 1px solid #aaa;
-            border-radius: 8px;
-            padding: 6px 18px;
-            font-size: 1em;
-            cursor: pointer;
-            margin-top: 8px;
-        }
-        #tictactoe-restart:hover { background: #ffd; }
-        @media (max-width: 600px) {
-            .nav-buttons {
-                flex-direction: column;
-                gap: 10px;
-            }
-            .nav-link {
-                width: 100%;
-                font-size: 20px;
-            }
-            .info-box {
-                font-size: 1em;
-                padding: 10px;
-            }
-            .slugcat-img {
-                width: 80px;
-                height: 80px;
-            }
-            #search-input {
-                width: 90%;
-            }
-            #tictactoe-board {
-                min-width: 0;
-                padding: 8px 2vw 8px 2vw;
-            }
-            #tictactoe-grid {
-                grid-template-columns: repeat(3, 50px);
-                grid-template-rows: repeat(3, 50px);
-                gap: 4px;
-            }
-            .tictactoe-cell {
-                width: 50px;
-                height: 50px;
-            }
-            .tictactoe-cell img {
-                width: 40px; height: 40px;
-            }
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>THE RAINWORLD SHELTER</title>
+  <link rel="icon" type="image/jpeg" href="assets/img/levincopper.jpg">
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      min-height: 100vh;
+      position: relative;
+      overflow-x: hidden;
+    }
+    .bg-image {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: url('assets/img/rainworld.jpg') no-repeat center center fixed;
+      background-size: cover;
+      opacity: 0.33;
+      z-index: 0;
+    }
+    .content {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding-top: 40px;
+    }
+    .title {
+      font-size: 36px;
+      font-weight: normal;
+    }
+    .subtitle {
+      font-size: 24px;
+      margin-top: 5px;
+    }
+    .nav-buttons {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+      gap: 20px;
+    }
+    .nav-link {
+      background: white;
+      color: black;
+      border: none;
+      font-size: 28px;
+      padding: 10px 30px;
+      margin: 0 5px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      cursor: pointer;
+      transition: background 0.2s;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .nav-link:hover {
+      background: #e0e0e0;
+    }
+    .nav-link.active {
+      font-weight: bold;
+    }
+    .info-box {
+      border: 2px solid #444;
+      border-radius: 10px;
+      background: #fffbe6;
+      padding: 18px;
+      margin: 0 auto;
+      margin-top: 30px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+      font-size: 1.1em;
+      text-align: left;
+      max-width: 500px;
+    }
+    .info-title {
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      color: #222;
+    }
+    .slugcat-img {
+      width: 120px;
+      height: 120px;
+      object-fit: contain;
+      display: block;
+      margin: 0 auto 8px auto;
+    }
+    .slugcat-name {
+      text-align: center;
+      font-size: 1.3em;
+      font-weight: bold;
+      margin-bottom: 10px;
+      -webkit-text-stroke: 1.2px black;
+      text-stroke: 1.2px black;
+      text-shadow:
+        1px 1px 0 #000,
+        -1px 1px 0 #000,
+        1px -1px 0 #000,
+        -1px -1px 0 #000;
+    }
+    .search-container {
+      display: flex;
+      justify-content: center;
+      margin-top: 30px;
+    }
+    #search-input {
+      padding: 10px;
+      font-size: 20px;
+      border: 2px solid #444;
+      border-radius: 5px;
+      width: 60%;
+      max-width: 500px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    }
+    .search-results {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      margin-top: 20px;
+    }
+    .search-result-item {
+      background: white;
+      padding: 15px;
+      border-radius: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+      width: 150px;
+      text-align: center;
+      cursor: pointer;
+      user-select: none;
+    }
+    .search-result-img {
+      width: 100px;
+      height: 100px;
+      object-fit: contain;
+      margin-bottom: 10px;
+    }
+    .search-result-name {
+      font-weight: bold;
+      font-size: 18px;
+    }
+    /* Tic Tac Toe Overlay Styles */
+    #tictactoe-overlay {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.7);
+      z-index: 10000;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    #tictactoe-board {
+      background: #fff;
+      border-radius: 18px;
+      box-shadow: 0 0 40px #000a;
+      padding: 32px 32px 16px 32px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      min-width: 340px;
+      position: relative;
+    }
+    #tictactoe-board h2 {
+      margin-top: 0;
+      margin-bottom: 12px;
+      font-family: Arial, sans-serif;
+      font-size: 2em;
+      letter-spacing: 0.05em;
+    }
+    #tictactoe-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 80px);
+      grid-template-rows: repeat(3, 80px);
+      gap: 8px;
+      margin-bottom: 18px;
+    }
+    .tictactoe-cell {
+      width: 80px;
+      height: 80px;
+      background: #f5f5f5;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 2.5em;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+      box-shadow: 0 2px 8px #0001;
+    }
+    .tictactoe-cell img {
+      width: 70px; height: 70px;
+      pointer-events: none;
+      user-select: none;
+    }
+    #tictactoe-controls {
+      font-family: Arial, sans-serif;
+      font-size: 1em;
+      margin-bottom: 10px;
+      color: #333;
+      text-align: center;
+    }
+    #tictactoe-status {
+      font-size: 1.1em;
+      min-height: 1.5em;
+      margin-bottom: 12px;
+      font-family: Arial, sans-serif;
+    }
+    #tictactoe-close {
+      position: absolute;
+      top: 10px; right: 20px;
+      font-size: 1.8em;
+      color: #888;
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-weight: bold;
+      z-index: 10;
+    }
+    #tictactoe-close:hover { color: #f33; }
+    #tictactoe-restart {
+      background: #eee;
+      border: 1px solid #aaa;
+      border-radius: 8px;
+      padding: 6px 18px;
+      font-size: 1em;
+      cursor: pointer;
+      margin-top: 8px;
+    }
+    #tictactoe-restart:hover { background: #ffd; }
+    @media (max-width: 600px) {
+      .nav-buttons {
+        flex-direction: column;
+        gap: 10px;
+      }
+      .nav-link {
+        width: 100%;
+        font-size: 20px;
+      }
+      .info-box {
+        font-size: 1em;
+        padding: 10px;
+      }
+      .slugcat-img {
+        width: 80px;
+        height: 80px;
+      }
+      #search-input {
+        width: 90%;
+      }
+      #tictactoe-board {
+        min-width: 0;
+        padding: 8px 2vw 8px 2vw;
+      }
+      #tictactoe-grid {
+        grid-template-columns: repeat(3, 50px);
+        grid-template-rows: repeat(3, 50px);
+        gap: 4px;
+      }
+      .tictactoe-cell {
+        width: 50px;
+        height: 50px;
+      }
+      .tictactoe-cell img {
+        width: 40px; height: 40px;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="bg-image"></div>
-    <div class="content">
-        <div class="title">THE RAINWORLD SHELTER</div>
-        <div class="subtitle">(fan made website)</div>
-        <div class="nav-buttons">
-            <a class="nav-link" id="home-btn" href="homepage.html"><b>Home</b></a>
-            <a class="nav-link active" href="Survive.html">Why you wont survive</a>
-            <a class="nav-link" id="wiki-btn" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
-            <a class="nav-link" href="monk-silly.html"><b>Monk Silly</b></a>
-        </div>
-        <div class="search-container">
-            <input type="text" id="search-input" placeholder="Search for regions or slugcats..." onkeyup="searchItems()">
-        </div>
-        <div id="search-results" class="search-results"></div>
-        <div style="margin-top: 40px;">
-            <button class="nav-link" onclick="showRandomRegion()">Random Region</button>
-            <button class="nav-link" onclick="showRandomSlugcat()">Random Slugcat</button>
-        </div>
-        <div id="info-box"></div>
+  <div class="bg-image"></div>
+  <div class="content">
+    <div class="title">
+      THE RAINWORLD <span id="s-shelter">S</span><span id="h-shelter">H</span>ELTER
     </div>
+    <div class="subtitle">
+      (fan m<span id="a-made">a</span><span id="d-made">d</span>e website)
+    </div>
+    <div class="nav-buttons">
+      <a class="nav-link" id="home-btn" href="homepage.html"><b>Home</b></a>
+      <a class="nav-link" id="survive-btn" href="Survive.html"><b>Why you wont survive</b></a>
+      <a class="nav-link" id="wiki-btn" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
+      <a class="nav-link" id="monk-btn" href="monk-silly.html"><b>Monk Silly</b></a>
+      <a class="nav-link" id="terraria-btn" href="terraria.html"><b>Terraria</b></a>
+    </div>
+    <div class="search-container">
+      <input type="text" id="search-input" placeholder="Search for regions or slugcats..." />
+    </div>
+    <div id="search-results" class="search-results"></div>
+    <div style="margin-top: 40px;">
+      <button class="nav-link" id="random-region-btn">Random Region</button>
+      <button class="nav-link" id="random-slugcat-btn">Random Slugcat</button>
+    </div>
+    <div id="info-box"></div>
+  </div>
 
-    <!-- Tic Tac Toe Overlay -->
-    <div id="tictactoe-overlay" style="display:none;">
-      <div id="tictactoe-board">
-        <button id="tictactoe-close" title="Close">&times;</button>
-        <h2>Tic Tac Toe</h2>
-        <div id="tictactoe-controls">
-          <div>
-            <img src="assets/img/boom.jpg" style="width:28px;height:28px;vertical-align:middle;">: <b>W/A/S/D</b> move, <b>E</b> drop<br>
-            <img src="assets/img/levincopper.jpg" style="width:28px;height:28px;vertical-align:middle;">: <b>&uarr;/&larr;/&darr;/&rarr;</b> move, <b>Space</b> drop
-          </div>
+  <!-- Tic Tac Toe Overlay -->
+  <div id="tictactoe-overlay" style="display:none;">
+    <div id="tictactoe-board">
+      <button id="tictactoe-close" title="Close">&times;</button>
+      <h2>Tic Tac Toe</h2>
+      <div id="tictactoe-controls">
+        <div>
+          <img
+            id="ttt-boom-instructions"
+            src="assets/img/boom.jpg"
+            style="width:28px;height:28px;vertical-align:middle;cursor:pointer;"
+            alt="boom"
+          />
+          : <b>W/A/S/D</b> move, <b>E</b> drop<br />
+          <img
+            src="assets/img/levincopper.jpg"
+            style="width:28px;height:28px;vertical-align:middle;"
+            alt="levin"
+          />
+          : <b>↑/←/↓/→</b> move, <b>Space</b> drop
         </div>
-        <div id="tictactoe-status"></div>
-        <div id="tictactoe-grid"></div>
-        <button id="tictactoe-restart" style="display:none;">Restart</button>
+      </div>
+      <div id="tictactoe-status"></div>
+      <div id="tictactoe-grid"></div>
+      <button id="tictactoe-restart" style="display:none;">Restart</button>
+    </div>
+  </div>
+
+  <!-- Secret Boom Button (bottom left, hidden by default) -->
+  <img
+    id="gdash-boom-btn"
+    src="assets/img/boom.jpg"
+    alt="Secret Boom"
+    title="???"
+    style="position:fixed;bottom:14px;left:14px;width:38px;height:38px;z-index:4000;opacity:0.7;cursor:pointer;transition:opacity 0.2s;display:none;"
+  />
+  <!-- Geometry Dash Pop-up Overlay -->
+  <div
+    id="gdash-popup-overlay"
+    style="
+      display:none;
+      position:fixed;
+      top:0;
+      left:0;
+      width:100vw;
+      height:100vh;
+      background:rgba(0, 0, 0, 0.7);
+      z-index:10000;
+      justify-content: center;
+      align-items: center;
+    "
+  >
+    <div
+      style="
+        background: #fff;
+        border-radius: 18px;
+        box-shadow: 0 0 40px #000a;
+        padding: 32px 32px 16px 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        min-width: 340px;
+        position: relative;
+      "
+    >
+      <button
+        id="gdash-popup-close"
+        style="
+          position: absolute;
+          top: 10px;
+          right: 20px;
+          font-size: 1.8em;
+          color: #888;
+          background: none;
+          border: none;
+          cursor: pointer;
+          font-weight: bold;
+          z-index: 10;
+        "
+      >
+        &times;
+      </button>
+      <h2
+        style="
+          margin-top: 0;
+          margin-bottom: 12px;
+          font-family: Arial, sans-serif;
+          font-size: 2em;
+          letter-spacing: 0.05em;
+        "
+      >
+        Geometry Dash
+      </h2>
+      <div
+        style="
+          width: 480px;
+          height: 390px;
+          max-width: 95vw;
+          max-height: 70vh;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+        "
+      >
+        <iframe
+          id="gdash-iframe"
+          src="https://scratch.mit.edu/projects/105500895/embed"
+          allowtransparency="true"
+          width="480"
+          height="390"
+          frameborder="0"
+          scrolling="no"
+          allowfullscreen
+          style="border-radius: 10px; background: #000; width: 100%; height: 100%"
+        ></iframe>
+      </div>
+      <div
+        style="
+          color: #333;
+          font-size: 1em;
+          margin-top: 6px;
+          font-family: Arial, sans-serif;
+          opacity: 0.6;
+        "
+      >
+        (just a little secret)
       </div>
     </div>
+  </div>
 
-    <script>
-        // Secret Genshin Impact wiki feature
-        let homeClickCount = 0;
-        let secretActive = false;
-        const homeBtn = document.getElementById('home-btn');
-        const wikiBtn = document.getElementById('wiki-btn');
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      // --- Secret Genshin Impact wiki feature ---
+      let homeClickCount = 0;
+      let secretActive = false;
+      const homeBtn = document.getElementById("home-btn");
+      const wikiBtn = document.getElementById("wiki-btn");
 
-        homeBtn.addEventListener('click', function(e) {
-            if (window.location.pathname.endsWith("homepage.html") || window.location.pathname === "/" || window.location.pathname === "/index.html") {
-                e.preventDefault();
-                homeClickCount++;
-                if (homeClickCount > 12) homeClickCount = 1;
-                if (homeClickCount === 12) {
-                    secretActive = true;
-                }
+      if (homeBtn && wikiBtn) {
+        homeBtn.addEventListener("click", function (e) {
+          if (
+            window.location.pathname.endsWith("homepage.html") ||
+            window.location.pathname === "/" ||
+            window.location.pathname === "/index.html"
+          ) {
+            e.preventDefault();
+            homeClickCount++;
+            if (homeClickCount > 12) homeClickCount = 1;
+            if (homeClickCount === 12) {
+              secretActive = true;
             }
+          }
         });
 
-        wikiBtn.addEventListener('click', function(e) {
-            if (secretActive) {
-                e.preventDefault();
-                window.open('https://genshin-impact.fandom.com/wiki/Genshin_Impact_Wiki', '_blank');
-                homeClickCount = 0;
-                secretActive = false;
-            }
+        wikiBtn.addEventListener("click", function (e) {
+          if (secretActive) {
+            e.preventDefault();
+            window.open(
+              "https://genshin-impact.fandom.com/wiki/Genshin_Impact_Wiki",
+              "_blank"
+            );
+            homeClickCount = 0;
+            secretActive = false;
+          }
+        });
+      }
+
+      let rainworldData = null;
+
+      const slugcatVisuals = {
+        Monk: {
+          color: "#FFD600",
+          img: "assets/img/monk.png",
+          wiki: "https://rainworld.miraheze.org/wiki/Monk",
+        },
+        Survivor: {
+          color: "#FFFFFF",
+          img: "assets/img/survivor.png",
+          wiki: "https://rainworld.miraheze.org/wiki/Survivor",
+        },
+        Hunter: {
+          color: "#FF6699",
+          img: "assets/img/hunter.png",
+          wiki: "https://rainworld.miraheze.org/wiki/Hunter",
+        },
+        Gourmand: {
+          color: "#FFFACD",
+          img: "assets/img/gourmand.png",
+          wiki: "https://rainworld.miraheze.org/wiki/Gourmand",
+        },
+        Artificer: {
+          color: "#FF1493",
+          img: "assets/img/artificer.png",
+          wiki: "https://rainworld.miraheze.org/wiki/Artificer",
+        },
+        Rivulet: {
+          color: "#4FC3F7",
+          img: "assets/img/rivulet.png",
+          wiki: "https://rainworld.miraheze.org/wiki/Rivulet",
+        },
+        Spearmaster: {
+          color: "#7C4DFF",
+          img: "assets/img/spearmaster.png",
+          wiki: "https://rainworld.miraheze.org/wiki/Spearmaster",
+        },
+      };
+
+      const regionVisuals = {
+        Outskirts: {
+          img: "assets/img/120px-Outskirts_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Outskirts",
+        },
+        "Industrial Complex": {
+          img: "assets/img/120px-Industrial_Complex_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Industrial_Complex",
+        },
+        "Drainage System": {
+          img: "assets/img/120px-Drainage_System_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Drainage_System",
+        },
+        "Garbage Wastes": {
+          img: "assets/img/120px-Garbage_Wastes_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Garbage_Wastes",
+        },
+        "Shaded Citadel": {
+          img: "assets/img/120px-Shaded_Citadel_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Shaded_Citadel",
+        },
+        "The Exterior": {
+          img: "assets/img/120px-The_Exterior_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/The_Exterior",
+        },
+        "Chimney Canopy": {
+          img: "assets/img/103px-Chimney_Canopy_Map_(Vanilla).png",
+          width: 103,
+          wiki: "https://rainworld.miraheze.org/wiki/Chimney_Canopy",
+        },
+        "Five Pebbles": {
+          img: "assets/img/82px-Five_Pebbles_Map_(Vanilla).png",
+          width: 82,
+          wiki: "https://rainworld.miraheze.org/wiki/Five_Pebbles_(region)",
+        },
+        "Sky Islands": {
+          img: "assets/img/120px-Sky_Islands_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Sky_Islands",
+        },
+        "Farm Arrays": {
+          img: "assets/img/120px-Farm_Arrays_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Farm_Arrays",
+        },
+        Subterranean: {
+          img: "assets/img/120px-Subterranean_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Subterranean",
+        },
+        "Memory Crypts": {
+          img: "assets/img/120px-Memory_Crypts_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Memory_Crypts",
+        },
+        Shoreline: {
+          img: "assets/img/120px-Shoreline_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Shoreline",
+        },
+        "Looks to the Moon": {
+          img: "assets/img/120px-Looks_to_the_Moon_Map_(Vanilla).png",
+          width: 120,
+          wiki: "https://rainworld.miraheze.org/wiki/Looks_to_the_Moon",
+        },
+      };
+
+      fetch("https://rainworld-api.onrender.com/api/rainworld")
+        .then((res) => res.json())
+        .then((data) => {
+          rainworldData = data;
+        })
+        .catch((err) => {
+          console.error("Error fetching data:", err);
         });
 
-        let rainworldData = null;
-
-        const slugcatVisuals = {
-          "Monk": {
-            color: "#FFD600",
-            img: "assets/img/monk.png",
-            wiki: "https://rainworld.miraheze.org/wiki/Monk"
-          },
-          "Survivor": {
-            color: "#FFFFFF",
-            img: "assets/img/survivor.png",
-            wiki: "https://rainworld.miraheze.org/wiki/Survivor"
-          },
-          "Hunter": {
-            color: "#FF6699",
-            img: "assets/img/hunter.png",
-            wiki: "https://rainworld.miraheze.org/wiki/Hunter"
-          },
-          "Gourmand": {
-            color: "#FFFACD",
-            img: "assets/img/gourmand.png",
-            wiki: "https://rainworld.miraheze.org/wiki/Gourmand"
-          },
-          "Artificer": {
-            color: "#FF1493",
-            img: "assets/img/artificer.png",
-            wiki: "https://rainworld.miraheze.org/wiki/Artificer"
-          },
-          "Rivulet": {
-            color: "#4FC3F7",
-            img: "assets/img/rivulet.png",
-            wiki: "https://rainworld.miraheze.org/wiki/Rivulet"
-          },
-          "Spearmaster": {
-            color: "#7C4DFF",
-            img: "assets/img/spearmaster.png",
-            wiki: "https://rainworld.miraheze.org/wiki/Spearmaster"
-          }
-        };
-
-        const regionVisuals = {
-          "Outskirts": {
-            img: "assets/img/120px-Outskirts_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Outskirts"
-          },
-          "Industrial Complex": {
-            img: "assets/img/120px-Industrial_Complex_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Industrial_Complex"
-          },
-          "Drainage System": {
-            img: "assets/img/120px-Drainage_System_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Drainage_System"
-          },
-          "Garbage Wastes": {
-            img: "assets/img/120px-Garbage_Wastes_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Garbage_Wastes"
-          },
-          "Shaded Citadel": {
-            img: "assets/img/120px-Shaded_Citadel_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Shaded_Citadel"
-          },
-          "The Exterior": {
-            img: "assets/img/120px-The_Exterior_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/The_Exterior"
-          },
-          "Chimney Canopy": {
-            img: "assets/img/103px-Chimney_Canopy_Map_(Vanilla).png",
-            width: 103,
-            wiki: "https://rainworld.miraheze.org/wiki/Chimney_Canopy"
-          },
-          "Five Pebbles": {
-            img: "assets/img/82px-Five_Pebbles_Map_(Vanilla).png",
-            width: 82,
-            wiki: "https://rainworld.miraheze.org/wiki/Five_Pebbles_(region)"
-          },
-          "Sky Islands": {
-            img: "assets/img/120px-Sky_Islands_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Sky_Islands"
-          },
-          "Farm Arrays": {
-            img: "assets/img/120px-Farm_Arrays_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Farm_Arrays"
-          },
-          "Subterranean": {
-            img: "assets/img/120px-Subterranean_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Subterranean"
-          },
-          "Memory Crypts": {
-            img: "assets/img/120px-Memory_Crypts_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Memory_Crypts"
-          },
-          "Shoreline": {
-            img: "assets/img/120px-Shoreline_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Shoreline"
-          },
-          "Looks to the Moon": {
-            img: "assets/img/120px-Looks_to_the_Moon_Map_(Vanilla).png",
-            width: 120,
-            wiki: "https://rainworld.miraheze.org/wiki/Looks_to_the_Moon"
-          }
-        };
-
-        fetch('https://rainworld-api.onrender.com/api/rainworld')
-		.then(res => res.json())
-		.then(data => {
-			rainworldData = data;
-		})
-		.catch(err => {
-			console.error('Error fetching data:', err);
-		});
-
-        function displayRegion(region) {
-            const visuals = regionVisuals[region.name];
-            let imgHTML = "";
-            if (visuals) {
-                imgHTML = `
+      function displayRegion(region) {
+        const visuals = regionVisuals[region.name];
+        let imgHTML = "";
+        if (visuals) {
+          imgHTML = `
                 <div style="text-align:center; margin-top:16px;">
                     <a href="${visuals.wiki}" target="_blank" rel="noopener">
                     <img src="${visuals.img}" alt="${region.name} Map" style="width:${visuals.width}px; height:auto; border-radius:6px; box-shadow:0 2px 8px rgba(0,0,0,0.08);">
                     </a>
                 </div>
                 `;
-            }
+        }
 
-            document.getElementById('info-box').innerHTML = `
+        document.getElementById("info-box").innerHTML = `
                 <div class="info-box">
                 <div class="info-title">${region.name}</div>
-                <b>Enemies:</b> ${region.enemies.join(', ')}<br>
+                <b>Enemies:</b> ${region.enemies.join(", ")}<br>
                 <b>Rooms:</b> ${region.rooms}<br>
                 <b>Pipes:</b> ${region.pipes}<br>
                 <b>Shelters:</b> ${region.shelters}<br>
-                <b>Connected Regions:</b> ${region.gates.map(g => g.to).join(', ')}
+                <b>Connected Regions:</b> ${region.gates.map((g) => g.to).join(", ")}
                 ${imgHTML}
                 </div>
             `;
-            document.getElementById('search-input').value = '';
-            document.getElementById('search-results').innerHTML = '';
-        }
+        document.getElementById("search-input").value = "";
+        document.getElementById("search-results").innerHTML = "";
+      }
 
-        function displaySlugcat(slugcat) {
-            const visuals = slugcatVisuals[slugcat.name] || { color: "#222", img: "", wiki: "#" };
-            document.getElementById('info-box').innerHTML = `
+      function displaySlugcat(slugcat) {
+        const visuals = slugcatVisuals[slugcat.name] || {
+          color: "#222",
+          img: "",
+          wiki: "#",
+        };
+        document.getElementById("info-box").innerHTML = `
                 <div class="info-box">
                 <div style="text-align:center;">
                     <a href="${visuals.wiki}" target="_blank" rel="noopener">
@@ -499,7 +634,7 @@
                     style="color:${visuals.color};"
                 >${slugcat.name}</div>
                 <b>Color:</b> ${slugcat.color}<br>
-                <b>Special Abilities:</b> ${slugcat.special_abilities.join(', ')}<br>
+                <b>Special Abilities:</b> ${slugcat.special_abilities.join(", ")}<br>
                 <b>Objective:</b> ${slugcat.objective}<br>
                 <b>Food to Hibernate:</b> ${slugcat.food_to_hibernate}<br>
                 <b>Max Food:</b> ${slugcat.max_food}<br>
@@ -507,268 +642,399 @@
                 <b>Diet:</b> ${slugcat.diet}
                 </div>
             `;
-            document.getElementById('search-input').value = '';
-            document.getElementById('search-results').innerHTML = '';
-        }
+        document.getElementById("search-input").value = "";
+        document.getElementById("search-results").innerHTML = "";
+      }
 
-        function showRandomRegion() {
-            if (!rainworldData) return;
-            const regions = rainworldData.regions;
-            const region = regions[Math.floor(Math.random() * regions.length)];
-            displayRegion(region);
-        }
+      document
+        .getElementById("random-region-btn")
+        .addEventListener("click", function () {
+          if (!rainworldData) return;
+          const regions = rainworldData.regions;
+          const region = regions[Math.floor(Math.random() * regions.length)];
+          displayRegion(region);
+        });
 
-        function showRandomSlugcat() {
-            if (!rainworldData) return;
-            const slugcats = rainworldData.slugcats;
-            const slugcat = slugcats[Math.floor(Math.random() * slugcats.length)];
-            displaySlugcat(slugcat);
-        }
+      document
+        .getElementById("random-slugcat-btn")
+        .addEventListener("click", function () {
+          if (!rainworldData) return;
+          const slugcats = rainworldData.slugcats;
+          const slugcat = slugcats[Math.floor(Math.random() * slugcats.length)];
+          displaySlugcat(slugcat);
+        });
 
-        function showSpecificRegion(regionName) {
-            if (!rainworldData) return;
-            const region = rainworldData.regions.find(r => r.name === regionName);
-            if (!region) return;
-            displayRegion(region);
-        }
+      document
+        .getElementById("search-input")
+        .addEventListener("keyup", function () {
+          if (!rainworldData) return;
 
-        function showSpecificSlugcat(slugcatName) {
-            if (!rainworldData) return;
-            const slugcat = rainworldData.slugcats.find(s => s.name === slugcatName);
-            if (!slugcat) return;
-            displaySlugcat(slugcat);
-        }
+          const searchTerm = this.value.toLowerCase();
+          const resultsContainer = document.getElementById("search-results");
 
-        function searchItems() {
-            if (!rainworldData) return;
+          // Tic Tac Toe secret trigger
+          if (searchTerm === "game") {
+            this.value = "";
+            showTicTacToeOverlay();
+            resultsContainer.innerHTML = "";
+            return;
+          }
 
-            const searchTerm = document.getElementById('search-input').value.toLowerCase();
-            const resultsContainer = document.getElementById('search-results');
+          resultsContainer.innerHTML = "";
+          if (!searchTerm) return;
 
-            // Tic Tac Toe secret trigger
-            if (searchTerm === "game") {
-                document.getElementById('search-input').value = "";
-                showTicTacToeOverlay();
-                resultsContainer.innerHTML = '';
-                return;
-            }
+          let matchedItems = [];
 
-            resultsContainer.innerHTML = '';
-            if (!searchTerm) return;
+          const matchedRegions = rainworldData.regions
+            .filter((region) => region.name.toLowerCase().startsWith(searchTerm))
+            .slice(0, 3)
+            .map((region) => ({
+              name: region.name,
+              img: regionVisuals[region.name]
+                ? regionVisuals[region.name].img
+                : "",
+              type: "region",
+            }));
 
-            let matchedItems = [];
+          const matchedSlugcats = rainworldData.slugcats
+            .filter((slugcat) => slugcat.name.toLowerCase().startsWith(searchTerm))
+            .slice(0, 3)
+            .map((slugcat) => ({
+              name: slugcat.name,
+              img: slugcatVisuals[slugcat.name]
+                ? slugcatVisuals[slugcat.name].img
+                : "",
+              type: "slugcat",
+            }));
 
-            const matchedRegions = rainworldData.regions
-                .filter(region => region.name.toLowerCase().startsWith(searchTerm))
-                .slice(0, 3)
-                .map(region => ({
-                    name: region.name,
-                    img: regionVisuals[region.name] ? regionVisuals[region.name].img : '',
-                    type: 'region'
-                }));
+          matchedItems = [...matchedRegions, ...matchedSlugcats].slice(0, 3);
 
-            const matchedSlugcats = rainworldData.slugcats
-                .filter(slugcat => slugcat.name.toLowerCase().startsWith(searchTerm))
-                .slice(0, 3)
-                .map(slugcat => ({
-                    name: slugcat.name,
-                    img: slugcatVisuals[slugcat.name] ? slugcatVisuals[slugcat.name].img : '',
-                    type: 'slugcat'
-                }));
-
-            matchedItems = [...matchedRegions, ...matchedSlugcats].slice(0, 3);
-
-            if (matchedItems.length > 0) {
-                matchedItems.forEach(item => {
-                    const resultElement = document.createElement('div');
-                    resultElement.className = 'search-result-item';
-                    resultElement.innerHTML = `
+          if (matchedItems.length > 0) {
+            matchedItems.forEach((item) => {
+              const resultElement = document.createElement("div");
+              resultElement.className = "search-result-item";
+              resultElement.innerHTML = `
                         <img src="${item.img}" alt="${item.name}" class="search-result-img">
                         <div class="search-result-name">${item.name}</div>
                     `;
-                    resultElement.addEventListener('click', () => {
-                        if (item.type === 'region') {
-                            showSpecificRegion(item.name);
-                        } else {
-                            showSpecificSlugcat(item.name);
-                        }
-                    });
-                    resultsContainer.appendChild(resultElement);
-                });
-            } else if (searchTerm) {
-                resultsContainer.innerHTML = '<p>No matches found</p>';
-            }
-        }
+              resultElement.addEventListener("click", () => {
+                if (item.type === "region") {
+                  displayRegion(
+                    rainworldData.regions.find((r) => r.name === item.name)
+                  );
+                } else {
+                  displaySlugcat(
+                    rainworldData.slugcats.find((s) => s.name === item.name)
+                  );
+                }
+              });
+              resultsContainer.appendChild(resultElement);
+            });
+          } else if (searchTerm) {
+            resultsContainer.innerHTML = "<p>No matches found</p>";
+          }
+        });
 
-        // --- Tic Tac Toe Game Overlay ---
-        const TTT_ROWS = 3, TTT_COLS = 3;
-        const TTT_BOOM = "boom";
-        const TTT_LEVIN = "levin";
-        const TTT_EMPTY = null;
-        const TTT_IMAGES = {
-            boom: "assets/img/boom.jpg",
-            levin: "assets/img/levincopper.jpg"
+      // --- Tic Tac Toe Game Overlay ---
+      const TTT_ROWS = 3,
+        TTT_COLS = 3;
+      const TTT_BOOM = "boom";
+      const TTT_LEVIN = "levin";
+      const TTT_EMPTY = null;
+      const TTT_IMAGES = {
+        boom: "assets/img/boom.jpg",
+        levin: "assets/img/levincopper.jpg",
+      };
+      let tttState = null;
+
+      function showTicTacToeOverlay() {
+        const overlay = document.getElementById("tictactoe-overlay");
+        overlay.style.display = "flex";
+        tttInit();
+      }
+
+      function hideTicTacToeOverlay() {
+        document.getElementById("tictactoe-overlay").style.display = "none";
+        document.removeEventListener("keydown", tttKeyHandler);
+      }
+
+      document.getElementById("tictactoe-close").onclick = hideTicTacToeOverlay;
+      document.getElementById("tictactoe-restart").onclick = tttInit;
+
+      function tttInit() {
+        tttState = {
+          board: Array.from({ length: TTT_ROWS }, () =>
+            Array(TTT_COLS).fill(TTT_EMPTY)
+          ),
+          turn: TTT_BOOM, // boom starts
+          selectedRow: 1, // 0,1,2
+          selectedCol: 1, // 0,1,2
+          gameOver: false,
         };
-        let tttState = null;
+        tttRender();
+        document.addEventListener("keydown", tttKeyHandler);
+      }
 
-        function showTicTacToeOverlay() {
-            const overlay = document.getElementById("tictactoe-overlay");
-            overlay.style.display = "flex";
-            tttInit();
+      function tttRender() {
+        const grid = document.getElementById("tictactoe-grid");
+        grid.innerHTML = "";
+        for (let r = 0; r < TTT_ROWS; r++) {
+          for (let c = 0; c < TTT_COLS; c++) {
+            const cell = document.createElement("div");
+            cell.className = "tictactoe-cell";
+            cell.dataset.row = r;
+            cell.dataset.col = c;
+            if (tttState.board[r][c]) {
+              const img = document.createElement("img");
+              img.src = TTT_IMAGES[tttState.board[r][c]];
+              img.alt = tttState.board[r][c];
+              cell.appendChild(img);
+            }
+            // Highlight the selected cell for the current player
+            if (
+              !tttState.gameOver &&
+              r === tttState.selectedRow &&
+              c === tttState.selectedCol
+            ) {
+              cell.style.boxShadow = "0 0 0 4px #ffd600";
+            }
+            grid.appendChild(cell);
+          }
         }
-
-        function hideTicTacToeOverlay() {
-            document.getElementById("tictactoe-overlay").style.display = "none";
-            document.removeEventListener("keydown", tttKeyHandler);
+        // Status
+        const status = document.getElementById("tictactoe-status");
+        if (tttState.gameOver) {
+          if (tttState.winner === TTT_BOOM)
+            status.innerHTML = `<img src="${TTT_IMAGES.boom}" style="width:28px;vertical-align:middle;"> wins!`;
+          else if (tttState.winner === TTT_LEVIN)
+            status.innerHTML = `<img src="${TTT_IMAGES.levin}" style="width:28px;vertical-align:middle;"> wins!`;
+          else status.textContent = "It's a draw!";
+          document.getElementById("tictactoe-restart").style.display = "";
+        } else {
+          status.innerHTML =
+            tttState.turn === TTT_BOOM
+              ? `<img src="${TTT_IMAGES.boom}" style="width:28px;vertical-align:middle;">'s turn`
+              : `<img src="${TTT_IMAGES.levin}" style="width:28px;vertical-align:middle;">'s turn`;
+          document.getElementById("tictactoe-restart").style.display = "none";
         }
+      }
 
-        document.getElementById("tictactoe-close").onclick = hideTicTacToeOverlay;
-        document.getElementById("tictactoe-restart").onclick = tttInit;
-
-        function tttInit() {
-            tttState = {
-                board: Array.from({length: TTT_ROWS}, () => Array(TTT_COLS).fill(TTT_EMPTY)),
-                turn: TTT_BOOM, // boom starts
-                selectedRow: 1, // 0,1,2
-                selectedCol: 1, // 0,1,2
-                gameOver: false
-            };
+      function tttKeyHandler(e) {
+        if (!tttState || tttState.gameOver) return;
+        // BOOM controls: W/A/S/D/E
+        if (tttState.turn === TTT_BOOM) {
+          if (e.key === "w" || e.key === "W") {
+            tttState.selectedRow = (tttState.selectedRow + TTT_ROWS - 1) % TTT_ROWS;
             tttRender();
-            document.addEventListener("keydown", tttKeyHandler);
+            e.preventDefault();
+          } else if (e.key === "s" || e.key === "S") {
+            tttState.selectedRow = (tttState.selectedRow + 1) % TTT_ROWS;
+            tttRender();
+            e.preventDefault();
+          } else if (e.key === "a" || e.key === "A") {
+            tttState.selectedCol = (tttState.selectedCol + TTT_COLS - 1) % TTT_COLS;
+            tttRender();
+            e.preventDefault();
+          } else if (e.key === "d" || e.key === "D") {
+            tttState.selectedCol = (tttState.selectedCol + 1) % TTT_COLS;
+            tttRender();
+            e.preventDefault();
+          } else if (e.key === "e" || e.key === "E") {
+            tttDropToken(TTT_BOOM, tttState.selectedRow, tttState.selectedCol);
+            e.preventDefault();
+          }
         }
+        // LEVIN controls: Arrow keys + Space
+        else if (tttState.turn === TTT_LEVIN) {
+          if (e.key === "ArrowUp") {
+            tttState.selectedRow = (tttState.selectedRow + TTT_ROWS - 1) % TTT_ROWS;
+            tttRender();
+            e.preventDefault();
+          } else if (e.key === "ArrowDown") {
+            tttState.selectedRow = (tttState.selectedRow + 1) % TTT_ROWS;
+            tttRender();
+            e.preventDefault();
+          } else if (e.key === "ArrowLeft") {
+            tttState.selectedCol = (tttState.selectedCol + TTT_COLS - 1) % TTT_COLS;
+            tttRender();
+            e.preventDefault();
+          } else if (e.key === "ArrowRight") {
+            tttState.selectedCol = (tttState.selectedCol + 1) % TTT_COLS;
+            tttRender();
+            e.preventDefault();
+          } else if (e.key === " ") {
+            tttDropToken(TTT_LEVIN, tttState.selectedRow, tttState.selectedCol);
+            e.preventDefault();
+          }
+        }
+      }
 
-        function tttRender() {
-            const grid = document.getElementById("tictactoe-grid");
-            grid.innerHTML = "";
-            for (let r = 0; r < TTT_ROWS; r++) {
-                for (let c = 0; c < TTT_COLS; c++) {
-                    const cell = document.createElement("div");
-                    cell.className = "tictactoe-cell";
-                    cell.dataset.row = r;
-                    cell.dataset.col = c;
-                    if (tttState.board[r][c]) {
-                        const img = document.createElement("img");
-                        img.src = TTT_IMAGES[tttState.board[r][c]];
-                        img.alt = tttState.board[r][c];
-                        cell.appendChild(img);
-                    }
-                    // Highlight the selected cell for the current player
-                    if (!tttState.gameOver &&
-                        r === tttState.selectedRow &&
-                        c === tttState.selectedCol) {
-                        cell.style.boxShadow = "0 0 0 4px #ffd600";
-                    }
-                    grid.appendChild(cell);
-                }
+      function tttDropToken(player, row, col) {
+        if (!tttState.board[row][col]) {
+          tttState.board[row][col] = player;
+          tttCheckWin();
+          tttState.turn = player === TTT_BOOM ? TTT_LEVIN : TTT_BOOM;
+          tttState.selectedRow = 1;
+          tttState.selectedCol = 1;
+          tttRender();
+        }
+      }
+
+      function tttCheckWin() {
+        const b = tttState.board;
+        const winLines = [
+          // Rows
+          [
+            [0, 0],
+            [0, 1],
+            [0, 2],
+          ],
+          [
+            [1, 0],
+            [1, 1],
+            [1, 2],
+          ],
+          [
+            [2, 0],
+            [2, 1],
+            [2, 2],
+          ],
+          // Cols
+          [
+            [0, 0],
+            [1, 0],
+            [2, 0],
+          ],
+          [
+            [0, 1],
+            [1, 1],
+            [2, 1],
+          ],
+          [
+            [0, 2],
+            [1, 2],
+            [2, 2],
+          ],
+          // Diagonals
+          [
+            [0, 0],
+            [1, 1],
+            [2, 2],
+          ],
+          [
+            [0, 2],
+            [1, 1],
+            [2, 0],
+          ],
+        ];
+        for (const line of winLines) {
+          const [a, b1, c] = line;
+          const val = tttState.board[a[0]][a[1]];
+          if (
+            val &&
+            val === tttState.board[b1[0]][b1[1]] &&
+            val === tttState.board[c[0]][c[1]]
+          ) {
+            tttState.gameOver = true;
+            tttState.winner = val;
+            return;
+          }
+        }
+        if (b.flat().every((cell) => cell)) {
+          tttState.gameOver = true;
+          tttState.winner = null;
+        }
+      }
+
+      // ---- Secret Geometry Dash pop-up logic (with puzzle) ----
+      let gdashStep = 0; // 0 = waiting for "geometry", 1 = waiting for click, 2 = waiting for "dash", 3 = unlocked
+
+      // Listen for Enter key in the search bar for puzzle steps
+      document
+        .getElementById("search-input")
+        .addEventListener("keydown", function (e) {
+          if (e.key === "Enter") {
+            const value = this.value.trim().toLowerCase();
+            if (gdashStep === 0 && value === "geometry") {
+              gdashStep = 1;
+              this.value = "";
+            } else if (gdashStep === 2 && value === "dash") {
+              gdashStep = 3;
+              this.value = "";
+              document.getElementById("gdash-boom-btn").style.display = "block";
             }
-            // Status
-            const status = document.getElementById("tictactoe-status");
-            if (tttState.gameOver) {
-                if (tttState.winner === TTT_BOOM)
-                    status.innerHTML = `<img src="${TTT_IMAGES.boom}" style="width:28px;vertical-align:middle;"> wins!`;
-                else if (tttState.winner === TTT_LEVIN)
-                    status.innerHTML = `<img src="${TTT_IMAGES.levin}" style="width:28px;vertical-align:middle;"> wins!`;
-                else
-                    status.textContent = "It's a draw!";
-                document.getElementById("tictactoe-restart").style.display = "";
+          }
+        });
+
+      // Listen for click on background for puzzle step
+      document.addEventListener("click", function (e) {
+        // Only count if not clicking on input, button, or the boom button or overlays
+        const isInput = e.target.closest(
+          "input,button,#gdash-boom-btn,#tictactoe-overlay,#gdash-popup-overlay"
+        );
+        if (gdashStep === 1 && !isInput) {
+          gdashStep = 2;
+        }
+      });
+
+      // Show overlay and always reload the Scratch project for a fresh start
+      document
+        .getElementById("gdash-boom-btn")
+        .addEventListener("click", function () {
+          // Force reload the iframe by resetting src
+          var frame = document.getElementById("gdash-iframe");
+          frame.src = frame.src;
+          document.getElementById("gdash-popup-overlay").style.display = "flex";
+        });
+      document
+        .getElementById("gdash-popup-close")
+        .addEventListener("click", function () {
+          document.getElementById("gdash-popup-overlay").style.display = "none";
+        });
+      document
+        .getElementById("gdash-boom-btn")
+        .addEventListener("mouseenter", function () {
+          this.style.opacity = "1";
+        });
+      document
+        .getElementById("gdash-boom-btn")
+        .addEventListener("mouseleave", function () {
+          this.style.opacity = "0.7";
+        });
+
+      // Secret unlock: click D in made, A in made, S in SHELTER, H in SHELTER (in order)
+      const unlockSequence = ["d-made", "a-made", "s-shelter", "h-shelter"];
+      let unlockIndex = 0;
+
+      unlockSequence.forEach((id) => {
+        const el = document.getElementById(id);
+        if (el) {
+          el.style.cursor = "pointer";
+          el.addEventListener("click", function (e) {
+            if (id === unlockSequence[unlockIndex]) {
+              unlockIndex++;
+              if (unlockIndex === unlockSequence.length) {
+                document.getElementById("gdash-boom-btn").style.display = "block";
+                unlockIndex = 0;
+              }
             } else {
-                status.innerHTML = (tttState.turn === TTT_BOOM
-                    ? `<img src="${TTT_IMAGES.boom}" style="width:28px;vertical-align:middle;">'s turn`
-                    : `<img src="${TTT_IMAGES.levin}" style="width:28px;vertical-align:middle;">'s turn`);
-                document.getElementById("tictactoe-restart").style.display = "none";
+              unlockIndex = 0; // reset if out of order
             }
+            e.stopPropagation();
+          });
         }
+      });
 
-        function tttKeyHandler(e) {
-            if (!tttState || tttState.gameOver) return;
-            // BOOM controls: W/A/S/D/E
-            if (tttState.turn === TTT_BOOM) {
-                if (e.key === "w" || e.key === "W") {
-                    tttState.selectedRow = (tttState.selectedRow + TTT_ROWS - 1) % TTT_ROWS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === "s" || e.key === "S") {
-                    tttState.selectedRow = (tttState.selectedRow + 1) % TTT_ROWS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === "a" || e.key === "A") {
-                    tttState.selectedCol = (tttState.selectedCol + TTT_COLS - 1) % TTT_COLS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === "d" || e.key === "D") {
-                    tttState.selectedCol = (tttState.selectedCol + 1) % TTT_COLS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === "e" || e.key === "E") {
-                    tttDropToken(TTT_BOOM, tttState.selectedRow, tttState.selectedCol);
-                    e.preventDefault();
-                }
-            }
-            // LEVIN controls: Arrow keys + Space
-            else if (tttState.turn === TTT_LEVIN) {
-                if (e.key === "ArrowUp") {
-                    tttState.selectedRow = (tttState.selectedRow + TTT_ROWS - 1) % TTT_ROWS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === "ArrowDown") {
-                    tttState.selectedRow = (tttState.selectedRow + 1) % TTT_ROWS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === "ArrowLeft") {
-                    tttState.selectedCol = (tttState.selectedCol + TTT_COLS - 1) % TTT_COLS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === "ArrowRight") {
-                    tttState.selectedCol = (tttState.selectedCol + 1) % TTT_COLS;
-                    tttRender();
-                    e.preventDefault();
-                } else if (e.key === " ") {
-                    tttDropToken(TTT_LEVIN, tttState.selectedRow, tttState.selectedCol);
-                    e.preventDefault();
-                }
-            }
-        }
-
-        function tttDropToken(player, row, col) {
-            if (!tttState.board[row][col]) {
-                tttState.board[row][col] = player;
-                tttCheckWin();
-                tttState.turn = (player === TTT_BOOM ? TTT_LEVIN : TTT_BOOM);
-                tttState.selectedRow = 1;
-                tttState.selectedCol = 1;
-                tttRender();
-            }
-        }
-
-        function tttCheckWin() {
-            const b = tttState.board;
-            const winLines = [
-                // Rows
-                [[0,0],[0,1],[0,2]],
-                [[1,0],[1,1],[1,2]],
-                [[2,0],[2,1],[2,2]],
-                // Cols
-                [[0,0],[1,0],[2,0]],
-                [[0,1],[1,1],[2,1]],
-                [[0,2],[1,2],[2,2]],
-                // Diagonals
-                [[0,0],[1,1],[2,2]],
-                [[0,2],[1,1],[2,0]]
-            ];
-            for (const line of winLines) {
-                const [a,b1,c] = line;
-                const val = tttState.board[a[0]][a[1]];
-                if (val && val === tttState.board[b1[0]][b1[1]] && val === tttState.board[c[0]][c[1]]) {
-                    tttState.gameOver = true;
-                    tttState.winner = val;
-                    return;
-                }
-            }
-            if (b.flat().every(cell => cell)) {
-                tttState.gameOver = true;
-                tttState.winner = null;
-            }
-        }
-    </script>
+      // Geometry Dash shortcut: click boom.jpg next to tic tac toe instructions
+      document
+        .getElementById("ttt-boom-instructions")
+        .addEventListener("click", function (e) {
+          var frame = document.getElementById("gdash-iframe");
+          frame.src = frame.src;
+          document.getElementById("gdash-popup-overlay").style.display = "flex";
+          e.stopPropagation();
+        });
+    });
+  </script>
 </body>
 </html>

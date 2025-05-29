@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>THE RAINWORLD SHELTER - Terraria</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .bg-image {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            background: url('assets/img/rainworld.jpg') no-repeat center center fixed;
+            background-size: cover;
+            opacity: 0.33;
+            z-index: 0;
+        }
+        .content {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding-top: 40px;
+        }
+        .nav-buttons {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 30px;
+            gap: 20px;
+        }
+        .nav-link {
+            background: white;
+            color: black;
+            border: none;
+            font-size: 28px;
+            padding: 10px 30px;
+            margin: 0 5px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            cursor: pointer;
+            transition: background 0.2s;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .nav-link:hover {
+            background: #e0e0e0;
+        }
+        .terraria-container {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 10px;
+            padding: 20px;
+            margin: 0 auto;
+            max-width: 1000px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+        .terraria-title {
+            font-size: 36px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: #2c5530;
+        }
+        .api-section {
+            margin: 20px 0;
+            text-align: left;
+        }
+        .api-item {
+            background: #f8f9fa;
+            border: 1px solid #dee2e6;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px 0;
+        }
+        .api-item h3 {
+            margin-top: 0;
+            color: #495057;
+        }
+        .loading {
+            text-align: center;
+            font-size: 18px;
+            color: #666;
+        }
+        @media (max-width: 600px) {
+            .nav-buttons {
+                flex-direction: column;
+                gap: 10px;
+            }
+            .nav-link {
+                width: 100%;
+                font-size: 20px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="bg-image"></div>
+    <div class="content">
+        <div class="nav-buttons">
+  <a class="nav-link" href="homepage.html"><b>Home</b></a>
+  <a class="nav-link" href="Survive.html"><b>Why you wont survive</b></a>
+  <a class="nav-link" href="https://rainworld.miraheze.org/wiki/Rain_World_Wiki" target="_blank"><b>Wiki</b></a>
+  <a class="nav-link" href="monk-silly.html"><b>Monk Silly</b></a>
+  <a class="nav-link" href="terraria.html"><b>Terraria</b></a>
+</div>
+
+        
+       <div class="terraria-container">
+    <div class="terraria-title">Terraria Game Data</div>
+    <div style="margin-bottom:20px;">
+        <button id="random-btn" class="nav-link" style="font-size:18px;padding:6px 20px;">Random</button>
+        <button id="showall-btn" class="nav-link" style="font-size:18px;padding:6px 20px;">Show All Data</button>
+    </div>
+    <div id="random-info"></div>
+    <div id="terraria-content"></div>
+</div>	
+
+<style>
+#random-info {
+    position: relative;
+    margin-bottom: 20px;
+}
+.random-box {
+    position: relative;
+    background: #fffbe7;
+    border: 2px solid #ffd600;
+    border-radius: 10px;
+    padding: 18px 24px 18px 18px;
+    margin: 0 auto 10px auto;
+    max-width: 500px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.12);
+    font-size: 16px;
+}
+.random-close {
+    position: absolute;
+    top: 8px;
+    right: 12px;
+    font-weight: bold;
+    color: #888;
+    cursor: pointer;
+    font-size: 20px;
+    background: none;
+    border: none;
+}
+.random-close:hover {
+    color: #d32f2f;
+}
+</style>
+
+<script>
+const terrariaData = {
+    items: [
+        { name: "Copper Shortsword", damage: 5, type: "Melee", rarity: "White", description: "Starter sword, short reach." },
+        { name: "Iron Broadsword", damage: 10, type: "Melee", rarity: "White", description: "Basic iron sword." },
+        { name: "Musket", damage: 31, type: "Ranged", rarity: "Green", description: "Classic firearm, slow but strong." },
+        { name: "Magic Missile", damage: 23, type: "Magic", rarity: "Green", description: "Homing magic projectile." },
+        { name: "Night's Edge", damage: 42, type: "Melee", rarity: "Light Red", description: "Legendary pre-hardmode sword." },
+        { name: "Terra Blade", damage: 95, type: "Melee", rarity: "Cyan", description: "Fires sword beams, hardmode." }
+    ],
+    bosses: [
+        { name: "Eye of Cthulhu", health: 2800, defense: 12, damage: 23, drops: "Demonite/Crimtane Ore, Shield of Cthulhu (Expert)" },
+        { name: "Eater of Worlds", health: 7800, defense: 2, damage: 22, drops: "Shadow Scales, Demonite Ore" },
+        { name: "Skeletron", health: 4400, defense: 10, damage: 25, drops: "Skeletron Hand, Book of Skulls" },
+        { name: "The Twins", health: 43200, defense: 10, damage: 40, drops: "Souls of Sight, Hallowed Bars" }
+    ],
+    npcs: [
+        { name: "Guide", requirement: "Present from start", description: "Offers helpful advice and crafting recipes." },
+        { name: "Merchant", requirement: "Player has 50 silver coins", description: "Sells basic supplies." },
+        { name: "Nurse", requirement: "Player has increased max health", description: "Heals the player for a price." },
+        { name: "Arms Dealer", requirement: "Player has a gun", description: "Sells guns and ammo." }
+    ]
+};
+
+function renderAllData() {
+    let html = '';
+    html += '<div class="api-section" id="full-info-box"><h2>All Data</h2>';
+    // Items section
+    html += '<div class="api-section"><h3>Weapons & Items</h3>';
+    terrariaData.items.forEach(item => {
+        html += `
+            <div class="api-item">
+                <h4>${item.name}</h4>
+                <p><strong>Damage:</strong> ${item.damage}</p>
+                <p><strong>Type:</strong> ${item.type}</p>
+                <p><strong>Rarity:</strong> ${item.rarity}</p>
+                <p><strong>Description:</strong> ${item.description}</p>
+            </div>
+        `;
+    });
+    html += '</div>';
+
+    // Bosses section
+    html += '<div class="api-section"><h3>Bosses</h3>';
+    terrariaData.bosses.forEach(boss => {
+        html += `
+            <div class="api-item">
+                <h4>${boss.name}</h4>
+                <p><strong>Health:</strong> ${boss.health}</p>
+                <p><strong>Defense:</strong> ${boss.defense}</p>
+                <p><strong>Damage:</strong> ${boss.damage}</p>
+                <p><strong>Drops:</strong> ${boss.drops}</p>
+            </div>
+        `;
+    });
+    html += '</div>';
+
+    // NPCs section
+    html += '<div class="api-section"><h3>NPCs</h3>';
+    terrariaData.npcs.forEach(npc => {
+        html += `
+            <div class="api-item">
+                <h4>${npc.name}</h4>
+                <p><strong>Requirement:</strong> ${npc.requirement}</p>
+                <p><strong>Description:</strong> ${npc.description}</p>
+            </div>
+        `;
+    });
+    html += '</div>';
+
+    html += '</div>';
+    document.getElementById('terraria-content').innerHTML = html;
+}
+
+function singularize(category) {
+    if (category === "bosses") return "BOSS";
+    if (category === "items") return "ITEM";
+    if (category === "npcs") return "NPC";
+    return category.slice(0, -1).toUpperCase();
+}
+
+// This will keep track of all random boxes shown
+let randomBoxId = 0;
+
+function renderRandomData() {
+    const categories = Object.keys(terrariaData);
+    const cat = categories[Math.floor(Math.random() * categories.length)];
+    const arr = terrariaData[cat];
+    const entry = arr[Math.floor(Math.random() * arr.length)];
+
+    randomBoxId++;
+    const boxId = `random-box-${randomBoxId}`;
+
+    let html = `<div class="random-box" id="${boxId}"><button class="random-close" title="Close" onclick="document.getElementById('${boxId}').remove()">&times;</button>`;
+    html += `<h2>Random ${singularize(cat)}</h2>`;
+    html += `<div class="api-item"><h3>${entry.name}</h3>`;
+    Object.keys(entry).forEach(key => {
+        if (key !== "name") {
+            html += `<p><strong>${key.charAt(0).toUpperCase() + key.slice(1)}:</strong> ${entry[key]}</p>`;
+        }
+    });
+    html += `</div></div>`;
+
+    // Append new random box to existing ones
+    document.getElementById('random-info').innerHTML = html;
+}
+
+// Show All Data toggles full info
+let fullInfoVisible = false;
+document.getElementById('showall-btn').onclick = function() {
+    fullInfoVisible = !fullInfoVisible;
+    if (fullInfoVisible) {
+        renderAllData();
+    } else {
+        document.getElementById('terraria-content').innerHTML = '';
+    }
+};
+
+// Random button: always adds another random box, never clears full info
+document.getElementById('random-btn').onclick = function() {
+    renderRandomData();
+};
+
+// On page load, show nothing
+window.addEventListener('load', function() {
+    document.getElementById('terraria-content').innerHTML = '';
+    document.getElementById('random-info').innerHTML = '';
+    fullInfoVisible = false;
+});
+</script>
+</body>
+</html>
